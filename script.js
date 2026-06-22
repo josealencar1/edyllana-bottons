@@ -1,22 +1,22 @@
 /* ═══════════ URLs DAS IMAGENS (COLE SEUS LINKS AQUI) ═══════════ */
 // Imagens do Portfólio (Carrossel Inicial)
-const IMG_PORTFOLIO_1 = "https://placehold.co/400x400/1a1730/c084fc?text=K-pop";
-const IMG_PORTFOLIO_2 = "https://placehold.co/400x400/1a1730/c084fc?text=Anime";
-const IMG_PORTFOLIO_3 = "https://placehold.co/400x400/1a1730/c084fc?text=Pet";
-const IMG_PORTFOLIO_4 = "https://placehold.co/400x400/1a1730/c084fc?text=Casal";
-const IMG_PORTFOLIO_5 = "https://placehold.co/400x400/1a1730/c084fc?text=Foto+3x4";
-const IMG_PORTFOLIO_6 = "https://placehold.co/400x400/1a1730/c084fc?text=Desenho";
+const IMG_PORTFOLIO_1 = "https://images.unsplash.com/photo-1619229667009-e7e0cb214e7b?auto=format&fit=crop&w=800&q=80";
+const IMG_PORTFOLIO_2 = "https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?auto=format&fit=crop&w=800&q=80";
+const IMG_PORTFOLIO_3 = "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=800&q=80";
+const IMG_PORTFOLIO_4 = "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80";
+const IMG_PORTFOLIO_5 = "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80";
+const IMG_PORTFOLIO_6 = "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80";
 
 // Imagens das Coberturas (Grade e Pedido)
-const IMG_COV_TRANSPARENTE = "https://placehold.co/400x400/1a1730/c084fc?text=Exemplo+Transparente";
-const IMG_COV_ESTRELAS     = "https://placehold.co/400x400/1a1730/c084fc?text=Exemplo+Estrelas";
-const IMG_COV_BRILHINHOS   = "https://placehold.co/400x400/1a1730/c084fc?text=Exemplo+Brilhinhos";
-const IMG_COV_BOLINHAS     = "https://placehold.co/400x400/1a1730/c084fc?text=Exemplo+Bolinhas";
-const IMG_COV_GRADIENTE    = "https://placehold.co/400x400/1a1730/c084fc?text=Exemplo+Gradiente";
+const IMG_COV_TRANSPARENTE = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80";
+const IMG_COV_ESTRELAS     = "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=800&q=80";
+const IMG_COV_BRILHINHOS   = "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80";
+const IMG_COV_BOLINHAS     = "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80";
+const IMG_COV_GRADIENTE    = "https://images.unsplash.com/photo-1557682250-33bd709cbe85?auto=format&fit=crop&w=800&q=80";
 
 // Imagens dos Modelos (Pedido)
-const IMG_MOD_NORMAL  = "https://placehold.co/400x400/1a1730/c084fc?text=Botton+Normal";
-const IMG_MOD_ESPELHO = "https://placehold.co/400x400/1a1730/c084fc?text=Botton+Espelho";
+const IMG_MOD_NORMAL  = "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80";
+const IMG_MOD_ESPELHO = "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?auto=format&fit=crop&w=800&q=80";
 
 /* ═══════════ CONSTANTES NEGÓCIO ═══════════ */
 const SHEETDB = 'https://sheetdb.io/api/v1/qum4z9swnsw6z';
@@ -381,18 +381,20 @@ function changeQty(d){
 }
 
 function addToCart(){
-  cart.push({
+  const item = {
     id: `cart-${Date.now()}-${Math.random().toString(36).slice(2)}`,
     qty,
     plast: selPlast,
     modelo: selModelo,
     papel: selPapel
-  });
+  };
+  cart.push(item);
+  const info = getItemInfo(item);
   qty = 1;
   document.getElementById('qty-disp').textContent = qty;
   updatePromoBlock();
   updateSummary();
-  toast('Adicionado ao carrinho');
+  toast(`${item.qty}x ${info.modelo} com ${info.cover} adicionado ao carrinho`);
 }
 
 function removeFromCart(id){
@@ -443,7 +445,7 @@ function updatePromoBlock(){
     nomeStep.textContent = '6';
     promoStepN.textContent = '5';
     document.getElementById('promo-block-desc').textContent =
-      `Com ${totalQty} bottons, você ganhou um benefício. Escolha o que prefere:`;
+      `Seu carrinho tem ${totalQty} bottons. A partir de ${cfg.promo_minimo}, você escolhe um benefício para o pedido inteiro:`;
       
     const brindeBtn = document.getElementById('opt-brinde');
     const notice    = document.getElementById('promo-notice');
@@ -478,7 +480,7 @@ function calcTotal(){
       ? `💸 Desconto ${cfg.desconto_valor}% (−R$ ${fmt(desc)})`
       : `💸 Desconto R$ ${fmt(cfg.desconto_valor)}`;
   } else if(promoVisible && selPromo==='brinde'){
-    promoLabel = `🎁 ${cfg.descricao_brinde}`;
+    promoLabel = `🎁 ${cfg.descricao_brinde} (sem alterar o total)`;
   }
   return { total, desc, promoLabel };
 }
@@ -494,6 +496,8 @@ function fmt(v){ return parseFloat(v).toFixed(2).replace('.',','); }
 function updateSummary(){
   const {total,promoLabel} = calcTotal();
   const cartItems = document.getElementById('cart-items');
+  const btnSend = document.getElementById('btn-send');
+
   cartItems.innerHTML = cart.length ? cart.map((item, index) => {
     const info = getItemInfo(item);
     return `
@@ -501,14 +505,21 @@ function updateSummary(){
         <div>
           <div class="cart-item-title">Botton ${index + 1} · ${item.qty}x ${info.modelo}</div>
           <div class="cart-item-details">${info.cover} · ${info.papel}</div>
-          <div class="cart-item-subtotal">R$ ${fmt(info.subtotal)}</div>
+          <div class="cart-item-subtotal">Subtotal: R$ ${fmt(info.subtotal)}</div>
         </div>
         <button class="cart-remove" onclick="removeFromCart('${item.id}')">Remover</button>
       </div>`;
-  }).join('') : '<div class="cart-empty">Seu carrinho ainda está vazio.</div>';
+  }).join('') : `
+    <div class="cart-empty">
+      <strong>Carrinho vazio</strong>
+      <span>Escolha cobertura, modelo e papel. Depois clique em “Adicionar ao carrinho”.</span>
+    </div>`;
+
   document.getElementById('s-qty').textContent    = getTotalQty();
   document.getElementById('s-promo').textContent  = promoLabel;
   document.getElementById('s-total').textContent  = 'R$ '+fmt(total);
+
+  if(btnSend) btnSend.classList.toggle('is-disabled', !cart.length);
 }
 
 /* ═══════════ WHATSAPP + MODAL ═══════════ */
@@ -552,7 +563,7 @@ async function confirmSendWpp(){
 /* ═══════════ SAVE ORDER ═══════════ */
 async function saveOrder({nome, promoLabel, total, desc}){
   try {
-    await fetch(`${SHEETDB}?sheet=compras`,{
+    const res = await fetch(`${SHEETDB}?sheet=compras`,{
       method:'POST', headers:{'Content-Type':'application/json'},
       body:JSON.stringify({data:[{
         data_hora:       new Date().toLocaleString('pt-BR'),
@@ -569,7 +580,11 @@ async function saveOrder({nome, promoLabel, total, desc}){
         arquivo_foto:    'Enviará pelo WhatsApp'
       }]})
     });
-  } catch(e){ console.warn('SheetDB save error',e); }
+    if(!res.ok) throw new Error(`SheetDB HTTP ${res.status}`);
+  } catch(e){
+    console.warn('SheetDB save error',e);
+    toast('Pedido aberto no WhatsApp. Se a planilha falhar, a conversa ainda registra tudo.');
+  }
 }
 
 /* ═══════════ THEME ═══════════ */
