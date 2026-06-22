@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bottons · Edyllana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Canvas -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- Ambient -->
+<div class="amb amb-a"></div>
+<div class="amb amb-b"></div>
+<div class="amb amb-c"></div>
+
+<!-- ══════════ NAV ══════════ -->
+<nav>
+  <div class="brand" data-magnetic>
+    <em>Bottons</em>
+    <sub>by Edyllana</sub>
+  </div>
+  <div class="nav-right">
+    <button class="theme-btn" onclick="toggleTheme()">
+      <span id="t-ico">☀️</span><span id="t-lbl">Claro</span>
+    </button>
+    <button class="nav-cta" data-magnetic onclick="goOrder()">Fazer pedido →</button>
+  </div>
+</nav>
+
+<!-- ══════════ HOME ══════════ -->
+<div id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>Bottons artesanais</div>
+    <h1>
+      Seu estilo,<br/>
+      <strong>seu botton.</strong>
+    </h1>
+    <p>Transforme sua foto favorita em um botton feito pra você. Entregamos para quem está na nossa rota — sem frete, sem complicação.</p>
+    <div class="hero-cta-group">
+      <button class="btn-primary" data-magnetic onclick="goOrder()">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Pedir pelo WhatsApp
+      </button>
+      <button class="btn-ghost" onclick="document.querySelector('.carousel-section').scrollIntoView({behavior:'smooth'})">Ver portfólio ↓</button>
+    </div>
+    <div class="hero-chips">
+      <span class="hero-chip">📍 Entrega pessoal</span>
+      <span class="hero-chip">🎓 Faculdade · Escola · Trabalho</span>
+      <span class="hero-chip">⚡ Rápido e sem frete</span>
+      <span class="hero-chip">🎀 Acabamentos únicos</span>
+    </div>
+    <div class="scroll-indicator">
+      <span class="scroll-txt">Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="mq1"></div>
+  </div>
+
+  <!-- PORTFOLIO CAROUSEL -->
+  <div class="section carousel-section reveal">
+    <div class="carousel-header">
+      <div>
+        <div class="sec-eyebrow">Portfólio</div>
+        <div class="sec-title">Bottons que já<br/><em>saíram por aqui</em></div>
+      </div>
+      <div class="carousel-arrows">
+        <button class="car-arrow" onclick="scrollCar(-1)">←</button>
+        <button class="car-arrow" onclick="scrollCar(1)">→</button>
+      </div>
+    </div>
+    <div class="carousel" id="carousel"></div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- COVERS -->
+  <div class="section reveal">
+    <div class="sec-eyebrow">Acabamentos</div>
+    <div class="sec-title">Escolha a <em>cobertura</em><br/>do seu botton</div>
+    <div class="covers-grid" id="covers-grid"></div>
+  </div>
+
+  <!-- MARQUEE 2 -->
+  <div class="marquee-wrap" style="margin-top:0">
+    <div class="marquee-track" id="mq2"></div>
+  </div>
+
+  <!-- FINAL CTA -->
+  <div class="final-cta reveal">
+    <div class="final-cta-glow"></div>
+    <div class="sec-eyebrow" style="justify-content:center">Pronta para pedir?</div>
+    <div class="sec-title" style="font-size:clamp(2.5rem,6vw,5rem);margin-bottom:1rem">
+      É rápido.<br/><em>É lindo.</em>
+    </div>
+    <p style="color:var(--muted);margin-bottom:2.5rem;font-size:.95rem;line-height:1.75;max-width:400px;margin-left:auto;margin-right:auto">
+      Neste espaço você escolhe o acabamento e a gente cuida do resto!
+    </p>
+    <button class="btn-primary" data-magnetic onclick="goOrder()">
+      Fazer meu pedido →
+    </button>
+  </div>
+
+</div><!-- /page-home -->
+
+<!-- ══════════ ORDER ══════════ -->
+<div id="page-order">
+  <div class="order-wrap">
+
+    <button class="back-btn" onclick="goHome()">← Voltar</button>
+
+    <div class="order-headline">
+      <div class="sec-eyebrow">Pedido</div>
+      <div class="sec-title">Monta seu <em>botton</em></div>
+      <p>Preencha os campos abaixo e seu pedido vai direto pro WhatsApp.</p>
+    </div>
+
+    <div id="cfg-loading">
+      <div class="loader-ring"></div>
+      Carregando configurações…
+    </div>
+
+    <div id="order-body" style="display:none">
+
+      <!-- 1. Cobertura -->
+      <div class="step-block reveal delay-1">
+        <div class="step-hd"><div class="step-n">1</div><div class="step-ttl">Cobertura do plástico</div></div>
+        
+        <!-- CAIXA DE PREVIEW DINÂMICA DA COBERTURA -->
+        <div id="preview-cobertura" class="img-preview-box"></div>
+        
+        <p style="font-size:.82rem;color:var(--muted)">Como você quer o acabamento?</p>
+        <div class="pills" id="plast-pills"></div>
+      </div>
+
+      <!-- 2. Modelo -->
+      <div class="step-block reveal delay-2">
+        <div class="step-hd"><div class="step-n">2</div><div class="step-ttl">Modelo do botton</div></div>
+        
+        <!-- CAIXA DE PREVIEW DINÂMICA DO MODELO -->
+        <div id="preview-modelo" class="img-preview-box"></div>
+        
+        <div class="pills" id="model-pills"></div>
+      </div>
+
+      <!-- 3. Tipo de papel -->
+      <div class="step-block reveal delay-3">
+        <div class="step-hd"><div class="step-n">3</div><div class="step-ttl">Tipo do papel</div></div>
+        <p style="font-size:.82rem;color:var(--muted)">Escolha o papel da impressão.</p>
+        <div class="pills" id="papel-pills"></div>
+      </div>
+
+      <!-- 4. Quantidade -->
+      <div class="step-block reveal delay-3">
+        <div class="step-hd"><div class="step-n">4</div><div class="step-ttl">Quantidade</div></div>
+        <div class="qty-row">
+          <button class="qty-btn" onclick="changeQty(-1)">−</button>
+          <span class="qty-n" id="qty-disp">1</span>
+          <button class="qty-btn" onclick="changeQty(1)">+</button>
+        </div>
+        <button class="btn-add-cart" onclick="addToCart()">Adicionar ao carrinho</button>
+      </div>
+
+      <!-- 5. Promoção -->
+      <div class="step-block reveal delay-4" id="promo-block" style="display:none">
+        <div class="step-hd"><div class="step-n" id="step-promo-n">5</div><div class="step-ttl">Benefício disponível! 🎉</div></div>
+        <p style="font-size:.82rem;color:var(--muted)" id="promo-block-desc"></p>
+        <div class="promo-choice">
+          <button class="promo-opt on" id="opt-brinde" onclick="selectPromo('brinde')">
+            <div class="promo-opt-ico">🎁</div>
+            <span class="promo-opt-name">Quero o brinde</span>
+            <span class="promo-opt-desc">Sem desconto no valor</span>
+          </button>
+          <button class="promo-opt" id="opt-desconto" onclick="selectPromo('desconto')">
+            <div class="promo-opt-ico">💸</div>
+            <span class="promo-opt-name">Prefiro o desconto</span>
+            <span class="promo-opt-desc" id="desc-pct-label"></span>
+          </button>
+        </div>
+        <div id="promo-notice"></div>
+      </div>
+
+      <!-- 6. Nome -->
+      <div class="step-block reveal delay-5">
+        <div class="step-hd"><div class="step-n" id="step-nome-n">5</div><div class="step-ttl">Seu nome</div></div>
+        <label class="lbl" for="nome-in">Como te chamam?</label>
+        <input class="inp" id="nome-in" type="text" placeholder="Seu nome aqui." oninput="updateSummary()"/>
+      </div>
+
+      <!-- Resumo -->
+      <div class="step-block reveal">
+        <div class="step-ttl" style="margin-bottom:1.25rem">Resumo do pedido</div>
+        <div id="cart-items" class="cart-items">
+          <div class="cart-empty">Seu carrinho ainda está vazio.</div>
+        </div>
+        <div class="sum-row"><span class="lft">Quantidade total</span><span class="rgt" id="s-qty">0</span></div>
+        <div class="sum-row"><span class="lft">Benefício</span><span class="rgt" id="s-promo">—</span></div>
+        <div class="sum-row sum-total">
+          <span class="lft" style="font-weight:800;color:var(--text)">Total</span>
+          <span class="rgt" id="s-total">R$ —</span>
+        </div>
+
+        <button class="btn-wpp" onclick="sendWpp()" id="btn-send">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Enviar pedido pelo WhatsApp
+        </button>
+        <p class="wpp-note">📎 A foto do botton você irá enviar direto na conversa!</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal foto -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeModal(event)">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-top-line"></div>
+
+    <h3 style="margin-bottom:.3rem">Quase lá! <em>Envie a foto</em></h3>
+    <p class="modal-sub">Após abrir o WhatsApp, toque no botão mais e escolha enviar como documento para não perder a qualidade original da foto.</p>
+
+    <!-- Mockup WhatsApp Inteligente (Renders beautiful tutorial images) -->
+    <div class="wapp-mock">
+      <div class="tutorial-step-container">
+        <!-- Passo 1: O botão de Mais (+) -->
+        <div class="tutorial-box">
+          <span class="tutorial-label">1. Toque no (+)</span>
+          <div class="tutorial-img-wrapper">
+            <img src="https://www.image2url.com/r2/default/images/1781037905143-3a903971-647e-4439-ad70-2abab82d43df.jpeg" alt="Tocar no botão mais">
+          </div>
+        </div>
+        <!-- Passo 2: O botão de Documento -->
+        <div class="tutorial-box">
+          <span class="tutorial-label">2. Documento</span>
+          <div class="tutorial-img-wrapper">
+            <img src="https://www.image2url.com/r2/default/images/1781038020888-246ba1d9-6a8e-41c6-9327-73367b0bef02.jpeg" alt="Escolher documento">
+          </div>
+        </div>
+      </div>
+    </div><!-- /mockup -->
+
+    <div class="modal-actions" style="margin-top:1.25rem">
+      <button class="modal-btn-cancel" onclick="closeModalDirect()">Voltar</button>
+      <button class="modal-btn-confirm" id="modal-confirm-btn" onclick="confirmSendWpp()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Abrir WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════════════════
+   JAVASCRIPT — TUDO ORIGINAL + EFEITOS
+══════════════════════════════════════════ -->
+<script src="script.js"></script>
+</body>
+</html>
