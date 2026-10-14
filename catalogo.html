@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bottons · Edyllana — Bottons artesanais e photocards</title>
+<meta name="description" content="Bottons artesanais personalizados e photocards em acabamentos laminado ou plastificado. Entrega pessoal, sem frete, com tabela de preços organizada."/>
+<meta name="theme-color" content="#c084fc"/>
+<meta property="og:title" content="Bottons · Edyllana"/>
+<meta property="og:description" content="Transforme sua foto favorita em bottons e photocards personalizados, com entrega pessoal e sem frete."/>
+<meta property="og:type" content="website"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+<link rel="icon" href="data:,"/>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Canvas -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- Ambient -->
+<div class="amb amb-a"></div>
+<div class="amb amb-b"></div>
+<div class="amb amb-c"></div>
+
+<!-- ══════════ NAV ══════════ -->
+<nav>
+  <div class="brand" data-magnetic>
+    <em>Bottons</em>
+    <sub>by Edyllana</sub>
+  </div>
+  <div class="nav-right">
+    <a class="theme-btn" href="index.html">Início</a>
+    <a class="theme-btn" href="catalogo.html">Catálogo</a>
+    <button class="theme-btn" onclick="toggleTheme()">
+      <span id="t-ico">☀️</span><span id="t-lbl">Claro</span>
+    </button>
+    <a class="theme-btn" href="catalogo.html#favorites-section" aria-label="Ver favoritos">
+      ★ <span id="nav-fav-count">0</span>
+    </a>
+    <a class="theme-btn" href="pedido.html" aria-label="Abrir carrinho">
+      🛒 <span id="nav-cart-count">0</span>
+    </a>
+    <a class="nav-cta" data-magnetic href="pedido.html">Fazer pedido →</a>
+  </div>
+</nav>
+
+<!-- ══════════ HOME ══════════ -->
+<div id="page-home"><div class="order-wrap" style="padding-top:7rem;padding-bottom:0"><div class="order-headline"><div class="sec-eyebrow">Catalogo</div><div class="sec-title">Portfolio e photocards</div><p>Veja modelos prontos, salve favoritos e depois monte o pedido.</p></div></div>
+
+  
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="mq1"></div>
+  </div>
+
+  <!-- PORTFOLIO CAROUSEL -->
+  <div class="section carousel-section reveal">
+    <div class="carousel-header">
+      <div>
+        <div class="sec-eyebrow">Portfólio</div>
+        <div class="sec-title">Bottons que já<br/><em>saíram por aqui</em></div>
+      </div>
+      <div class="carousel-arrows">
+        <button class="car-arrow" onclick="scrollCar(-1)">←</button>
+        <button class="car-arrow" onclick="scrollCar(1)">→</button>
+      </div>
+    </div>
+    <div class="carousel" id="carousel"></div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- COVERS -->
+  <div class="section reveal">
+    <div class="sec-eyebrow">Acabamentos</div>
+    <div class="sec-title">Escolha a <em>cobertura</em><br/>do seu botton</div>
+    <div class="covers-grid" id="covers-grid"></div>
+  </div>
+
+  <!-- PHOTOCARDS -->
+  <div class="section reveal" id="photocards">
+    <div class="sec-eyebrow">Photocards</div>
+    <div class="sec-title">Escolha seu <em>photocard</em><br/>do jeito certo</div>
+    <p style="color:var(--muted);font-size:.9rem;line-height:1.7;max-width:760px;margin-bottom:2rem">
+      Acabamento laminado para um visual mais suave ou plastificado para mais proteção. Cada modelo pode ser pedido em 1, 10, 20 ou 25 unidades.
+    </p>
+    <div class="photo-toolbar">
+      <input class="photo-search" id="photo-search" type="search" placeholder="Buscar acabamento..." aria-label="Buscar acabamento"/>
+      <div class="photo-filters" role="tablist" aria-label="Filtros de photocard">
+        <button class="photo-filter on" data-filter="all" type="button">Todos</button>
+        <button class="photo-filter" data-filter="frente" type="button">Apenas frente</button>
+        <button class="photo-filter" data-filter="frente-verso" type="button">Frente e verso</button>
+      </div>
+    </div>
+    <div class="photo-grid" id="photo-grid"></div>
+    <div class="photo-tip">
+      Envie a imagem com boa resolução; se possível, como documento no WhatsApp, para não perder qualidade.
+    </div>
+  </div>
+
+  <!-- MARQUEE 2 -->
+  <div class="marquee-wrap" style="margin-top:0">
+    <div class="marquee-track" id="mq2"></div>
+  </div>
+
+  <!-- FAVORITOS -->
+  <div class="section reveal" id="favorites-section">
+    <div class="sec-eyebrow">Favoritos</div>
+    <div class="sec-title">Seus photocards <em>salvos</em></div>
+    <div class="photo-grid" id="favorites-grid"></div>
+  </div>
+
+  </div><!-- /page-home -->
+
+<!-- Modal foto -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeModal(event)">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-top-line"></div>
+
+    <h3 style="margin-bottom:.3rem">Quase lá! <em>Envie a foto</em></h3>
+    <p class="modal-sub">Antes de abrir o WhatsApp, só lembra: envie a imagem como <strong>documento</strong>. Assim a foto chega sem perder qualidade e o botton fica mais bonito.</p>
+
+    <!-- Mockup WhatsApp Inteligente (Renders beautiful tutorial images) -->
+    <div class="wapp-mock">
+      <div class="tutorial-step-container">
+        <!-- Passo 1: O botão de Mais (+) -->
+        <div class="tutorial-box">
+          <span class="tutorial-label">1. Toque no (+)</span>
+          <div class="tutorial-img-wrapper">
+            <img src="https://www.image2url.com/r2/default/images/1781037905143-3a903971-647e-4439-ad70-2abab82d43df.jpeg" alt="Tocar no botão mais">
+          </div>
+        </div>
+        <!-- Passo 2: O botão de Documento -->
+        <div class="tutorial-box">
+          <span class="tutorial-label">2. Documento</span>
+          <div class="tutorial-img-wrapper">
+            <img src="https://www.image2url.com/r2/default/images/1781038020888-246ba1d9-6a8e-41c6-9327-73367b0bef02.jpeg" alt="Escolher documento">
+          </div>
+        </div>
+      </div>
+    </div><!-- /mockup -->
+
+    <div class="modal-actions" style="margin-top:1.25rem">
+      <button class="modal-btn-cancel" onclick="closeModalDirect()">Voltar</button>
+      <button class="modal-btn-confirm" id="modal-confirm-btn" onclick="confirmSendWpp()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Abrir WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════════════════
+   JAVASCRIPT — TUDO ORIGINAL + EFEITOS
+══════════════════════════════════════════ -->
+<script src="script.js"></script>
+</body>
+</html>
