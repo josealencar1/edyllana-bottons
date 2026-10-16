@@ -1,22 +1,16 @@
 /* ═══════════ URLs DAS IMAGENS (COLE SEUS LINKS AQUI) ═══════════ */
-// Imagens do Portfólio (Carrossel Inicial)
-const IMG_PORTFOLIO_1 = "https://images.unsplash.com/photo-1619229667009-e7e0cb214e7b?auto=format&fit=crop&w=800&q=80";
-const IMG_PORTFOLIO_2 = "https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?auto=format&fit=crop&w=800&q=80";
-const IMG_PORTFOLIO_3 = "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=800&q=80";
-const IMG_PORTFOLIO_4 = "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80";
-const IMG_PORTFOLIO_5 = "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80";
-const IMG_PORTFOLIO_6 = "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80";
-
 // Imagens das Coberturas (Grade e Pedido)
-const IMG_COV_TRANSPARENTE = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80";
-const IMG_COV_ESTRELAS     = "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=800&q=80";
-const IMG_COV_BRILHINHOS   = "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80";
-const IMG_COV_BOLINHAS     = "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80";
-const IMG_COV_GRADIENTE    = "https://images.unsplash.com/photo-1557682250-33bd709cbe85?auto=format&fit=crop&w=800&q=80";
+const IMG_COV_TRANSPARENTE = "img/Transparente.png";
+const IMG_COV_CORACOES     = "img/Corações.png";
+const IMG_COV_ESTRELAS     = "img/Estrelas.png";
+const IMG_COV_ESTRELINHAS  = "img/Estrelinhas.png";
+const IMG_COV_FLASH        = "img/Flash.png";
+const IMG_COV_HOLOGRAFICO  = "img/Holográfico.png";
+const IMG_COV_PONTINHOS    = "img/Pontinhos.png";
 
 // Imagens dos Modelos (Pedido)
-const IMG_MOD_NORMAL  = "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80";
-const IMG_MOD_ESPELHO = "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?auto=format&fit=crop&w=800&q=80";
+const IMG_MOD_32MM = "img/32mm.png";
+const IMG_MOD_58MM = "img/58mm.png";
 
 /* ═══════════ CONSTANTES NEGÓCIO ═══════════ */
 const SHEETDB = 'https://sheetdb.io/api/v1/qum4z9swnsw6z';
@@ -28,45 +22,62 @@ const COUPONS = {
 };
 
 const COVERS = [
-  { id:'transparente', label:'Transparente padrão', desc:'Cobertura limpa, fiel ao original',       img:IMG_COV_TRANSPARENTE, badge:'Padrão' },
-  { id:'estrelas',     label:'Estrelas',             desc:'Detalhes de estrelas no plástico',       img:IMG_COV_ESTRELAS,     badge:'Novo' },
-  { id:'brilhinhos',   label:'Brilhinhos',           desc:'Brilhos delicados no acabamento',        img:IMG_COV_BRILHINHOS,   badge:'Brilho' },
-  { id:'bolinhas',     label:'Bolinhas',             desc:'Estampa com bolinhas no plástico',       img:IMG_COV_BOLINHAS,     badge:'Fofo' },
-  { id:'gradiente',    label:'Gradiente',            desc:'Efeito suave em degradê',                img:IMG_COV_GRADIENTE,    badge:'Colorido' },
+  { id:'transparente', label:'Transparente', desc:'Cobertura limpa, fiel ao original',           img:IMG_COV_TRANSPARENTE, badge:'Padrão',      extra:0 },
+  { id:'coracoes',     label:'Corações',     desc:'Corações holográficos no plástico', img:IMG_COV_CORACOES,     badge:'Romântico',  extra:0.5 },
+  { id:'estrelas',     label:'Estrelas',     desc:'Contornos de estrelas holográficas',          img:IMG_COV_ESTRELAS,     badge:'Clássico',    extra:0.5 },
+  { id:'estrelinhas',  label:'Estrelinhas',  desc:'Glitter fino cheio de estrelinhas',           img:IMG_COV_ESTRELINHAS,  badge:'Brilho',      extra:0.5 },
+  { id:'flash',        label:'Flash',        desc:'Faíscas delicadas estilo flash',               img:IMG_COV_FLASH,        badge:'Novo',        extra:0.5 },
+  { id:'holografico',  label:'Holográfico',  desc:'Acabamento holográfico arco-íris suave',      img:IMG_COV_HOLOGRAFICO,  badge:'Iridescente', extra:0.5 },
+  { id:'pontinhos',    label:'Pontinhos',    desc:'Glitter de pontinhos holográficos',           img:IMG_COV_PONTINHOS,    badge:'Fofo',        extra:0.5 },
 ];
 
+const MODELS = [
+  { id:'32mm', label:'32mm', price:5, img:IMG_MOD_32MM },
+  { id:'58mm', label:'58mm', price:6, img:IMG_MOD_58MM },
+];
+const DEFAULT_MODEL = '58mm';
+
 const EXAMPLES = [
-  { label:'K-pop',    desc:'Acabamento brilhante',  img:IMG_PORTFOLIO_1 },
-  { label:'Anime',    desc:'Espelho fosco',          img:IMG_PORTFOLIO_2 },
-  { label:'Pet',      desc:'Brilhante normal',       img:IMG_PORTFOLIO_3 },
-  { label:'Casal',    desc:'Fosco espelho',          img:IMG_PORTFOLIO_4 },
-  { label:'Foto 3x4', desc:'Brilhante normal',       img:IMG_PORTFOLIO_5 },
-  { label:'Desenho',  desc:'Glitter brilhante',      img:IMG_PORTFOLIO_6 },
+  { label:'K-pop',  desc:'Black Pink',       img:'img/bottons kpop.png' },
+  { label:'Anime',  desc:'Kimetsu no Yaiba', img:'img/bottons anime.png' },
+  { label:'Pet',    desc:'memes',            img:'img/bottons animais.png' },
+  { label:'Casal',  desc:'metadinhas',       img:'img/bottons casal.png' },
 ];
 
 /* PHOTOCARDS PRICING */
 const PHOTOCARDS = [
-  { id:'frente-laminado', name:'Frente laminado', desc:'Apenas frente com laminação suave', badge:'Laminado', filter:'frente',
+  { id:'frente-laminado', name:'Frente laminado', desc:'Apenas frente com laminação suave', badge:'Laminado', img:'img/Frente laminado.png',
     tiers:[{qty:1,price:2.50},{qty:10,price:20.00},{qty:20,price:35.00},{qty:25,price:42.00}] },
-  { id:'frente-plastificado', name:'Frente plastificado', desc:'Apenas frente com plastificação mais resistente', badge:'Plastificado', filter:'frente',
+  { id:'frente-plastificado', name:'Frente plastificado', desc:'Apenas frente com plastificação mais resistente', badge:'Plastificado', img:'img/Frente plastificado.png',
     tiers:[{qty:1,price:3.00},{qty:10,price:25.00},{qty:20,price:44.00},{qty:25,price:52.00}] },
-  { id:'frente-verso-laminado', name:'Frente e verso laminado', desc:'Frente e verso com laminação', badge:'Laminado', filter:'frente-verso',
+  { id:'frente-verso-laminado', name:'Frente e verso laminado', desc:'Frente e verso com laminação', badge:'Laminado', img:'img/Frente e verso laminado.png',
     tiers:[{qty:1,price:3.50},{qty:10,price:30.00},{qty:20,price:52.00},{qty:25,price:62.00}] },
-  { id:'frente-verso-plastificado', name:'Frente e verso plastificado', desc:'Frente e verso com plastificação', badge:'Plastificado', filter:'frente-verso',
+  { id:'frente-verso-plastificado', name:'Frente e verso plastificado', desc:'Frente e verso com plastificação', badge:'Plastificado', img:'img/Frente e verso plastificado.png',
     tiers:[{qty:1,price:4.00},{qty:10,price:35.00},{qty:20,price:60.00},{qty:25,price:72.00}] }
+];
+
+/* Fotocards do catálogo: 2 acabamentos grandes com gaveta de variantes */
+const PHOTO_FINISHES = [
+  { id:'laminado', name:'Laminado', desc:'Acabamento suave com brilho elegante', badge:'Suave',
+    img:'img/Frente laminado.png', imgVerso:'img/Frente e verso laminado.png',
+    variants:[ {id:'frente-verso-laminado', label:'Frente e Verso'}, {id:'frente-laminado', label:'Frente'} ] },
+  { id:'plastificado', name:'Plastificado', desc:'Mais resistente e com proteção extra', badge:'Resistente',
+    img:'img/Frente plastificado.png', imgVerso:'img/Frente e verso plastificado.png',
+    variants:[ {id:'frente-verso-plastificado', label:'Frente e Verso'}, {id:'frente-plastificado', label:'Frente'} ] },
 ];
 
 /* ═══════════ STATE ═══════════ */
 let cfg = {
-  preco_unitario: 7, extra_espelho: 2, preco_papel_fotografico: 0.50,
+  preco_papel_fotografico: 0.50,
   promo_minimo: 2, desconto_valor: 1,
   desconto_tipo: 'reais', brindes_disponiveis: true,
   descricao_brinde: 'O que tiver aqui quero que apareça no site',
 };
-let qty=1, selPlast='transparente', selModelo='normal', selPapel='a4',
+let qty=1, selPlast='transparente', selModelo=DEFAULT_MODEL, selPapel='fotografico',
     selPromo='brinde', promoVisible=false, cart=[], selectedPhotoQty=1,
     selectedPhotoModel = null, selectedProductType = 'botton',
-    selectedSelectionMode='normal', appliedCoupon=null,
+    selectedSelectionMode='normal', appliedCoupon=null, couponSuspended=false,
+    photoPreviewToken=0,
     favorites = JSON.parse(localStorage.getItem('edyllana-favorites') || '[]');
 
 /* ═══════════ PARTICLES CANVAS ═══════════ */
@@ -223,7 +234,7 @@ let qty=1, selPlast='transparente', selModelo='normal', selPapel='a4',
 
 /* ═══════════ MARQUEE ═══════════ */
 (function buildMarquees(){
-  const items = ['Brilhante','Fosco','Glitter','Transparente','Espelho','K-pop','Anime','Pet','Casal','Foto 3x4','Desenho','Artesanal','Personalizado','Sem frete','Entrega pessoal'];
+  const items = ['Brilhante','Fosco','Glitter','Transparente','Holográfico','K-pop','Anime','Pet','Casal','Artesanal','Personalizado','Sem frete','Entrega pessoal'];
   function fill(id, offset=0){
     const el = document.getElementById(id);
     if(!el) return;
@@ -257,7 +268,7 @@ function favButtonHTML(id){
       </div>
       <div class="car-info">
         <strong>${e.label}</strong>
-        <p>${e.desc}</p>
+        ${e.desc ? `<p>${e.desc}</p>` : ''}
       </div>`;
     c.appendChild(card);
     });
@@ -276,7 +287,10 @@ function favButtonHTML(id){
       <div class="cover-body">
         <div class="cover-name">${cv.label}</div>
         <div class="cover-desc">${cv.desc}</div>
-        ${cv.badge ? `<span class="cover-badge">${cv.badge}</span>` : ''}
+        <div class="cover-tags">
+          ${cv.badge ? `<span class="cover-badge">${cv.badge}</span>` : ''}
+          ${(cv.extra||0) > 0 ? `<span class="cover-extra">+R$ ${fmt(cv.extra)}</span>` : ''}
+        </div>
       </div>`;
     g.appendChild(card);
     
@@ -308,7 +322,6 @@ function favButtonHTML(id){
 function buildPhotocardCard(item){
   const card = document.createElement('article');
   card.className = 'photo-card reveal in';
-  card.dataset.filter = item.filter;
   card.innerHTML = `
     <div class="photo-card-head">
       <div>
@@ -324,44 +337,119 @@ function buildPhotocardCard(item){
       ${item.tiers.map(t => `<div class="photo-tier"><span>${t.qty} un.</span><strong>R$ ${fmt(t.price)}</strong></div>`).join('')}
     </div>
     <div class="photo-actions">
-      <a class="photo-order link-reset" href="pedido.html">Montar pedido</a>
+      <a class="photo-order link-reset" href="pedido.html?tipo=photocard&modelo=${item.id}">Montar pedido</a>
     </div>`;
   return card;
 }
 
-function getPhotocards(){
-  const search = document.getElementById('photo-search');
-  const activeFilter = document.querySelector('.photo-filter.on');
-  const query = search ? search.value.trim().toLowerCase() : '';
-  const filter = activeFilter ? activeFilter.dataset.filter : 'all';
-  return PHOTOCARDS.filter(item => {
-    const matchesQuery = !query || [item.name, item.desc, item.badge].join(' ').toLowerCase().includes(query);
-    const matchesFilter = filter === 'all' || item.filter === filter;
-    return matchesQuery && matchesFilter;
-  });
+/* ═══════════ CARDS DE PHOTOCARD (2 ACABAMENTOS + GAVETA) ═══════════ */
+function buildFinishCard(fin){
+  const card = document.createElement('article');
+  card.className = 'finish-card';
+  card.dataset.finish = fin.id;
+  card.dataset.front = fin.img;
+  card.innerHTML = `
+    <div class="finish-media">
+      <img class="finish-img" src="${fin.img}" alt="${fin.name}" loading="lazy" decoding="async">
+      <span class="photo-badge finish-badge">${fin.badge}</span>
+    </div>
+    <div class="finish-head">
+      <div class="finish-head-txt">
+        <h3>${fin.name}</h3>
+        <p>${fin.desc}</p>
+      </div>
+      <button class="finish-toggle" type="button" aria-expanded="false">
+        Escolher <span class="finish-chevron">▾</span>
+      </button>
+    </div>
+    <div class="finish-drawer">
+      <div class="finish-drawer-inner">
+        <div class="finish-drawer-pad">
+          ${fin.variants.map(v=>{
+            const ph = PHOTOCARDS.find(p=>p.id===v.id);
+            const img = v.label === 'Frente' ? fin.img : fin.imgVerso;
+            return `
+            <div class="finish-row">
+              <a class="finish-opt" href="pedido.html?tipo=photocard&modelo=${v.id}" data-img="${img}">
+                <span class="finish-opt-hd">${v.label}<span class="finish-opt-arrow">→</span></span>
+                <span class="finish-opt-prices">${ph.tiers.map(t=>`<em>${t.qty} un. · R$ ${fmt(t.price)}</em>`).join('')}</span>
+              </a>
+              ${favButtonHTML(v.id)}
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>`;
+  return card;
 }
 
 function renderPhotocards(){
   const grid = document.getElementById('photo-grid');
   if(!grid) return;
-  const items = getPhotocards();
-  grid.innerHTML = items.map(item => buildPhotocardCard(item).outerHTML).join('');
-  if(!items.length){
-    grid.innerHTML = '<div class="photo-empty">Nenhum photocard encontrado com esse filtro.</div>';
-  }
+  // Mantém abertas as gavetas que estavam fixadas (ex.: a pessoa salvou um favorito no celular)
+  const pinned = new Set(
+    [...grid.querySelectorAll('.finish-card[data-pinned="1"]')].map(c => c.dataset.finish)
+  );
+  grid.innerHTML = PHOTO_FINISHES.map(fin => buildFinishCard(fin).outerHTML).join('');
+  grid.querySelectorAll('.finish-card').forEach(card=>{
+    if(pinned.has(card.dataset.finish)){
+      card.dataset.pinned = '1';
+      card.classList.add('pinned', 'open');
+      card.querySelector('.finish-toggle')?.setAttribute('aria-expanded','true');
+    }
+  });
+  bindFinishCards();
+}
+
+function bindFinishCards(){
+  const hoverable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  document.querySelectorAll('.finish-card').forEach(card=>{
+    const img = card.querySelector('.finish-img');
+    const toggle = card.querySelector('.finish-toggle');
+    const front = card.dataset.front;
+    const isPinned = ()=> card.dataset.pinned === '1';
+    const setImg = src => { if(img && src) img.src = src; };
+    const open = ()=> card.classList.add('open');
+    const close = ()=>{ card.classList.remove('open'); setImg(front); };
+
+    // Desktop: abre no hover e fecha sozinha ao tirar o mouse (a não ser que tenha sido clicada)
+    if(hoverable){
+      card.addEventListener('mouseenter', ()=>{ if(!isPinned()) open(); });
+      card.addEventListener('mouseleave', ()=>{ if(!isPinned()) close(); });
+    }
+
+    // Clique/toque fixa a gaveta aberta; clicar de novo fecha
+    const togglePin = ()=>{
+      if(isPinned()){
+        card.dataset.pinned = '0';
+        card.classList.remove('pinned');
+        toggle?.setAttribute('aria-expanded','false');
+        if(!hoverable || !card.matches(':hover')) close();
+      } else {
+        card.dataset.pinned = '1';
+        card.classList.add('pinned', 'open');
+        toggle?.setAttribute('aria-expanded','true');
+      }
+    };
+    toggle?.addEventListener('click', e=>{ e.stopPropagation(); togglePin(); });
+    [card.querySelector('.finish-media'), card.querySelector('.finish-head')].forEach(el=>{
+      el?.addEventListener('click', e=>{
+        if(e.target.closest('a,button')) return;
+        togglePin();
+      });
+    });
+
+    // Passar o mouse nas opções troca a imagem grande (frente ↔ frente e verso)
+    card.querySelectorAll('.finish-opt').forEach(opt=>{
+      opt.addEventListener('mouseenter', ()=> setImg(opt.dataset.img));
+      opt.addEventListener('mouseleave', ()=> setImg(front));
+    });
+  });
 }
 
 function initPhotocards(){
   renderPhotocards();
   renderFavoritesHome();
-  const search = document.getElementById('photo-search');
-  const filters = document.querySelectorAll('.photo-filter');
-  if(search) search.addEventListener('input', renderPhotocards);
-  filters.forEach(btn => btn.addEventListener('click', () => {
-    filters.forEach(b => b.classList.remove('on'));
-    btn.classList.add('on');
-    renderPhotocards();
-  }));
 }
 
 function isFavorite(id){
@@ -433,7 +521,7 @@ async function loadConfig(){
   if(loading) loading.style.display = 'none';
   if(body) body.style.display  = 'block';
   cfg = Object.assign({
-    preco_unitario: 7, extra_espelho: 2, preco_papel_fotografico: 0.50,
+    preco_papel_fotografico: 0.50,
     promo_minimo: 2, desconto_valor: 1, desconto_tipo: 'reais',
     brindes_disponiveis: true, descricao_brinde: 'O que tiver aqui quero que apareça no site'
   }, cfg || {});
@@ -441,6 +529,15 @@ async function loadConfig(){
   buildOrderUI();
   buildPhotocardOrderUI();
   selectProductType('botton');
+  const urlParams = new URLSearchParams(location.search);
+  if(urlParams.get('tipo') === 'photocard'){
+    const modelo = urlParams.get('modelo');
+    if(modelo && PHOTOCARDS.some(p => p.id === modelo)){
+      selectedPhotoModel = modelo;
+      buildPhotocardOrderUI();
+    }
+    selectProductType('photocard');
+  }
   appliedCoupon = localStorage.getItem('edyllana-coupon');
   if(appliedCoupon && !COUPONS[appliedCoupon]) appliedCoupon = null;
   restoreCart();
@@ -459,7 +556,7 @@ function buildOrderUI(){
   COVERS.forEach(c=>{
     const b = document.createElement('button');
     b.className = 'pill' + (c.id===selPlast?' on':'');
-    b.textContent = c.label;
+    b.textContent = (c.extra||0) > 0 ? `${c.label} · +R$ ${fmt(c.extra)}` : c.label;
     
     // Troca a imagem da caixa de visualização quando o mouse passa por cima (hover) ou clica no celular
     b.onmouseenter = () => prevPlast.style.backgroundImage = `url('${c.img}')`;
@@ -489,36 +586,41 @@ function buildOrderUI(){
   ];
 
   PAPEIS.forEach(p=>{
+    const wrap = document.createElement('div');
+    wrap.className = 'papel-opt';
+    // Caixinha "Recomendado" acima do botão (invisível no A4 para alinhar as pílulas)
+    const tag = document.createElement('span');
+    tag.className = 'papel-reco' + (p.id==='fotografico' ? '' : ' is-blank');
+    tag.textContent = 'Recomendado';
     const b = document.createElement('button');
     b.className = 'pill' + (p.id===selPapel?' on':'');
     b.textContent = p.label;
     b.onclick = ()=>{
       selPapel = p.id;
       setActive(papelPills,b);
+      updatePaperWarning();
       updateSummary();
     };
-    papelPills.appendChild(b);
+    wrap.appendChild(tag);
+    wrap.appendChild(b);
+    papelPills.appendChild(wrap);
   });
+  updatePaperWarning();
 
   // --- MODELOS ---
   const mp = document.getElementById('model-pills');
   const prevModel = document.getElementById('preview-modelo');
   mp.innerHTML = '';
   
-  const MODELS = [
-    {id:'normal', label:'Normal', img: IMG_MOD_NORMAL},
-    {id:'espelho', label:`Espelho (+R$ ${fmt(cfg.extra_espelho)})`, img: IMG_MOD_ESPELHO}
-  ];
-  
   MODELS.forEach(m=>{
     const b = document.createElement('button');
     b.className = 'pill' + (m.id===selModelo?' on':'');
-    b.textContent = m.label;
+    b.textContent = `${m.label} · R$ ${fmt(m.price)}`;
     
     // Troca a imagem da caixa de visualização quando o mouse passa por cima ou clica
     b.onmouseenter = () => prevModel.style.backgroundImage = `url('${m.img}')`;
     b.onmouseleave = () => {
-      const activeModel = MODELS.find(md => md.id === selModelo);
+      const activeModel = MODELS.find(md => md.id === selModelo) || MODELS.find(md => md.id === DEFAULT_MODEL);
       prevModel.style.backgroundImage = `url('${activeModel.img}')`;
     };
     
@@ -531,8 +633,9 @@ function buildOrderUI(){
     mp.appendChild(b);
   });
   
-  // Define a imagem inicial do Modelo (Normal)
-  prevModel.style.backgroundImage = `url('${MODELS.find(m=>m.id===selModelo).img}')`;
+  // Define a imagem inicial do Modelo
+  const startModel = MODELS.find(m=>m.id===selModelo) || MODELS.find(m=>m.id===DEFAULT_MODEL);
+  prevModel.style.backgroundImage = `url('${startModel.img}')`;
 
   document.getElementById('desc-pct-label').textContent =
     cfg.desconto_tipo==='pct' ? `Desconto de ${cfg.desconto_valor}%` : `Desconto de R$ ${fmt(cfg.desconto_valor)}`;
@@ -541,6 +644,13 @@ function buildOrderUI(){
 function setActive(container, btn){
   container.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
   btn.classList.add('on');
+}
+
+/* Mostra o aviso ⚠️ do papel A4 apenas quando ele está selecionado */
+function updatePaperWarning(){
+  const w = document.getElementById('paper-warning');
+  if(!w) return;
+  w.classList.toggle('show', selPapel === 'a4');
 }
 
 /* ═══════════ QTY ═══════════ */
@@ -603,17 +713,19 @@ function removeFromCart(id){
 }
 
 function getTotalQty(){
-  return cart.reduce((sum, item) => sum + item.qty, 0);
+  return cart.reduce((sum, item) => sum + (Number(item.qty) || 0), 0);
 }
 function getBottonQty(){
-  return cart.reduce((sum, item) => sum + (item.type === 'botton' ? item.qty : 0), 0);
+  return cart.reduce((sum, item) => sum + (item.type === 'botton' ? (Number(item.qty) || 0) : 0), 0);
 }
 
 function getItemInfo(item){
   const cover = COVERS.find(c=>c.id===item.plast)?.label || item.plast;
-  const modelo = item.modelo === 'espelho' ? 'Espelho' : 'Normal';
+  const coverExtra = COVERS.find(c=>c.id===item.plast)?.extra || 0;
+  const model = MODELS.find(m=>m.id===item.modelo) || MODELS.find(m=>m.id===DEFAULT_MODEL);
+  const modelo = model.label;
   const papel = item.papel === 'fotografico' ? 'Papel Fotográfico' : 'A4';
-  const unit = cfg.preco_unitario + (item.modelo==='espelho'?cfg.extra_espelho:0) + (item.papel==='fotografico'?cfg.preco_papel_fotografico:0);
+  const unit = model.price + coverExtra + (item.papel==='fotografico'?cfg.preco_papel_fotografico:0);
   const subtotal = unit * item.qty;
   return { cover, modelo, papel, unit, subtotal };
 }
@@ -622,7 +734,7 @@ function describeCartItem(item, index){
   if(item.type === 'photocard'){
     return `${index + 1}. Photocard ${item.label} — R$ ${fmt(item.subtotal)}`;
   }
-  const info = getItemInfo({ plast: item.plast || selPlast, modelo: item.modelo || (item.label.includes('Espelho') ? 'espelho' : 'normal'), papel: item.papel || 'a4', qty: item.qty });
+  const info = getItemInfo({ plast: item.plast || selPlast, modelo: item.modelo || DEFAULT_MODEL, papel: item.papel || 'a4', qty: item.qty });
   return `${index + 1}. ${item.qty}x ${info.modelo} | ${info.cover} | ${info.papel} — R$ ${fmt(item.subtotal)}`;
 }
 
@@ -702,14 +814,104 @@ function selectProductType(type){
 }
 
 function buildPhotocardOrderUI(){
-  const pills = document.getElementById('photo-order-models');
-  if(!pills) return;
+  const wrap = document.getElementById('photo-order-models');
+  if(!wrap) return;
   if(!selectedPhotoModel) selectedPhotoModel = PHOTOCARDS[0]?.id || null;
   selectedPhotoQty = selectedPhotoQty || PHOTOCARDS[0]?.tiers?.[0]?.qty || 1;
-  pills.innerHTML = PHOTOCARDS.map(p => `
-    <button class="pill${p.id === selectedPhotoModel ? ' on' : ''}" onclick="setPhotoModel('${p.id}')">${p.name}</button>
-  `).join('');
+
+  // Mantém a gaveta aberta entre reconstruções (ex.: selecionou uma opção no celular)
+  const openBefore = new Set([...wrap.querySelectorAll('.po-finish.open')].map(f => f.dataset.finish));
+
+  wrap.innerHTML = PHOTO_FINISHES.map(fin=>{
+    const isOpen = openBefore.has(fin.id);
+    const isSelected = fin.variants.some(v => v.id === selectedPhotoModel);
+    return `
+    <div class="po-finish${isOpen ? ' open' : ''}" data-finish="${fin.id}">
+      <button class="po-trigger${isSelected ? ' is-sel' : ''}" type="button" aria-expanded="${isOpen}">
+        <span class="po-trigger-name">${fin.name}</span>
+        <span class="po-trigger-side"><span class="po-check">✓</span>Escolher <span class="po-chevron">▾</span></span>
+      </button>
+      <div class="po-drawer"><div class="po-drawer-inner"><div class="po-drawer-pad">
+        ${fin.variants.map(v=>{
+          const ph = PHOTOCARDS.find(p => p.id === v.id);
+          const on = v.id === selectedPhotoModel;
+          return `<button class="po-opt${on ? ' on' : ''}" type="button" data-model="${v.id}" data-img="${ph.img}">
+            <span>${v.label}</span><em>desde R$ ${fmt(ph.tiers[0].price)}</em>
+          </button>`;
+        }).join('')}
+      </div></div></div>
+    </div>`;
+  }).join('');
+
+  bindPhotoOrderDrawers();
   updatePhotocardOrderPreview();
+}
+
+function bindPhotoOrderDrawers(){
+  const wrap = document.getElementById('photo-order-models');
+  if(!wrap || wrap.dataset.bound === '1') return;
+  wrap.dataset.bound = '1';
+  const hoverable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  const openFin = fin=>{
+    fin.classList.add('open');
+    fin.querySelector('.po-trigger')?.setAttribute('aria-expanded','true');
+  };
+  const closeFin = fin=>{
+    fin.classList.remove('open');
+    fin.querySelector('.po-trigger')?.setAttribute('aria-expanded','false');
+  };
+
+  // Desktop: a gaveta abre e fecha só no hover — nenhuma "gruda" sem o mouse em cima.
+  // Eventos delegados no contêiner: sobrevivem às reconstruções do innerHTML.
+  if(hoverable){
+    wrap.addEventListener('mouseover', e=>{
+      const fin = e.target.closest('.po-finish');
+      if(!fin || (e.relatedTarget && fin.contains(e.relatedTarget))) return;
+      openFin(fin);
+    });
+    wrap.addEventListener('mouseout', e=>{
+      const fin = e.target.closest('.po-finish');
+      if(!fin) return;
+      const to = e.relatedTarget;
+      if(to && fin.contains(to)) return;
+      closeFin(fin);
+    });
+
+    // Passar o mouse nas opções troca a foto; ao sair, volta para a selecionada
+    wrap.addEventListener('mouseover', e=>{
+      const opt = e.target.closest('.po-opt');
+      if(!opt || (e.relatedTarget && opt.contains(e.relatedTarget))) return;
+      setPhotoPreviewImg(opt.dataset.img);
+    });
+    wrap.addEventListener('mouseout', e=>{
+      const opt = e.target.closest('.po-opt');
+      if(!opt) return;
+      const to = e.relatedTarget;
+      if(to && opt.contains(to)) return;
+      const sel = PHOTOCARDS.find(p => p.id === selectedPhotoModel);
+      if(sel) setPhotoPreviewImg(sel.img);
+    });
+  }
+
+  // Clique/toque: no celular abre uma gaveta por vez (acordeão);
+  // no desktop o clique não fixa mais — abertura é só no hover
+  wrap.addEventListener('click', e=>{
+    const opt = e.target.closest('.po-opt');
+    if(opt){ setPhotoModel(opt.dataset.model); return; }
+    const trigger = e.target.closest('.po-trigger');
+    if(!trigger) return;
+    e.stopPropagation();
+    if(hoverable) return;
+    const fin = trigger.closest('.po-finish');
+    if(!fin) return;
+    if(fin.classList.contains('open')){
+      closeFin(fin);
+    } else {
+      wrap.querySelectorAll('.po-finish.open').forEach(closeFin);
+      openFin(fin);
+    }
+  });
 }
 
 function setPhotoModel(id){
@@ -717,14 +919,34 @@ function setPhotoModel(id){
   buildPhotocardOrderUI();
 }
 
+/* Troca a foto pequena com fade suave; o token evita que trocas rápidas "corram" */
+function setPhotoPreviewImg(src){
+  const img = document.getElementById('photo-order-preview-img');
+  if(!img || !src) return;
+  if(img.getAttribute('src') === src){
+    photoPreviewToken++;
+    img.style.opacity = '1';
+    return;
+  }
+  const token = ++photoPreviewToken;
+  img.style.opacity = '0';
+  const pre = new Image();
+  pre.onload = ()=>{
+    if(token !== photoPreviewToken) return;
+    img.src = src;
+    img.style.opacity = '1';
+  };
+  pre.onerror = ()=>{
+    if(token === photoPreviewToken) img.style.opacity = '1';
+  };
+  pre.src = src;
+}
+
 function updatePhotocardOrderPreview(){
   const item = PHOTOCARDS.find(p => p.id === selectedPhotoModel);
   if(!item) return;
-  const preview = document.getElementById('photo-order-preview');
   const qtyWrap = document.getElementById('photo-order-qty');
-  if(preview) preview.style.backgroundImage = '';
-  /* generic gradient preview since photos are provided later by the customer */
-  if(preview) preview.style.background = 'linear-gradient(135deg, rgba(192,132,252,.25), rgba(232,121,249,.18))';
+  setPhotoPreviewImg(item.img);
   if(qtyWrap){
     qtyWrap.innerHTML = item.tiers.map(t => `
       <button class="pill${t.qty === selectedPhotoQty ? ' on' : ''}" onclick="setPhotoQty(${t.qty})">
@@ -800,19 +1022,14 @@ function applyCoupon(){
     return;
   }
   if(!COUPONS[code]){
-    appliedCoupon = null;
-    persistAppliedCoupon();
-    updateSummary();
+    // Não apaga um cupom já aplicado só porque outro código digitado é inválido
     toast('Cupom inválido');
     return;
   }
   const coupon = COUPONS[code];
   const baseTotal = cart.reduce((sum, item) => sum + (Number(item.subtotal) || 0), 0);
   if(coupon.min && baseTotal < coupon.min){
-    appliedCoupon = null;
-    persistAppliedCoupon();
-    updateSummary();
-    toast(`Cupom ${code} requer compra acima de R$ ${coupon.min.toFixed(2).replace('.',',')}`);
+    toast(`Cupom ${code} só funciona acima de R$ ${fmt(coupon.min)} — seu carrinho está em R$ ${fmt(baseTotal)}`);
     return;
   }
   appliedCoupon = code;
@@ -824,6 +1041,7 @@ function applyCoupon(){
 
 function removeCoupon(){
   appliedCoupon = null;
+  couponSuspended = false;
   persistAppliedCoupon();
   const input = document.getElementById('coupon-input');
   if(input){ input.value=''; input.disabled=false; }
@@ -842,17 +1060,44 @@ function updateCouponUI(){
   const btn = document.getElementById('coupon-action-btn');
   const info = document.getElementById('coupon-applied');
   if(appliedCoupon && COUPONS[appliedCoupon]){
+    const coupon = COUPONS[appliedCoupon];
     if(input){ input.value = appliedCoupon; input.disabled = true; }
     if(btn) btn.textContent = 'Remover cupom';
     if(info){
       info.style.display = 'block';
-      info.textContent = `Cupom ${appliedCoupon} aplicado: ${COUPONS[appliedCoupon].label} (−R$ ${fmt(calcTotal().couponDiscount)})`;
+      const { raw, couponDiscount } = calcTotal();
+      if(coupon.min && raw < coupon.min){
+        info.classList.add('is-warn');
+        info.textContent = `⚠️ Cupom ${appliedCoupon} só funciona acima de R$ ${fmt(coupon.min)} — falta R$ ${fmt(Math.max(0, coupon.min - raw))} para ativar.`;
+      } else {
+        info.classList.remove('is-warn');
+        info.textContent = couponDiscount > 0
+          ? `Cupom ${appliedCoupon} aplicado: ${coupon.label} (−R$ ${fmt(couponDiscount)})`
+          : `Cupom ${appliedCoupon} aplicado: ${coupon.label}`;
+      }
     }
   } else {
     if(input){ input.disabled = false; }
     if(btn) btn.textContent = 'Aplicar';
-    if(info){ info.style.display = 'none'; info.textContent = ''; }
+    if(info){ info.style.display = 'none'; info.textContent = ''; info.classList.remove('is-warn'); }
   }
+}
+
+/* Avisa quando o cupom aplicado fica pausado (abaixo do mínimo) ou volta a valer */
+function checkCouponSuspension(){
+  if(!appliedCoupon || !COUPONS[appliedCoupon]){
+    couponSuspended = false;
+    return;
+  }
+  const coupon = COUPONS[appliedCoupon];
+  const raw = cart.reduce((sum, item) => sum + (Number(item.subtotal) || 0), 0);
+  const suspended = !!(coupon.min && raw < coupon.min);
+  if(suspended && !couponSuspended){
+    toast(`⚠️ Carrinho abaixo de R$ ${fmt(coupon.min)}: o cupom ${appliedCoupon} fica pausado até atingir o mínimo`);
+  } else if(!suspended && couponSuspended){
+    toast(`🎉 Cupom ${appliedCoupon} reativado: ${coupon.label}`);
+  }
+  couponSuspended = suspended;
 }
 
 function persistAppliedCoupon(){
@@ -991,7 +1236,8 @@ function renderPhotoComparator(item){
 
 /* ═══════════ CÁLCULO ═══════════ */
 function calcTotal(){
-  let total = cart.reduce((sum, item) => sum + (Number(item.subtotal) || 0), 0);
+  const raw = cart.reduce((sum, item) => sum + (Number(item.subtotal) || 0), 0);
+  let total = raw;
   let desc  = 0, promoLabel='—';
 
   const bottonTotal = cart.reduce((sum, item) => sum + (item.type === 'botton' ? (Number(item.subtotal) || 0) : 0), 0);
@@ -1009,8 +1255,8 @@ function calcTotal(){
   let couponDiscount = 0;
   if(appliedCoupon && COUPONS[appliedCoupon]){
     const coupon = COUPONS[appliedCoupon];
-    const couponTotal = total;
-    if(coupon.min && couponTotal < coupon.min){
+    // Mínimo conferido sobre a soma bruta dos itens (mesma base do applyCoupon)
+    if(coupon.min && raw < coupon.min){
       couponDiscount = 0;
     } else {
       couponDiscount = coupon.type === 'pct' ? total * coupon.value / 100 : coupon.value;
@@ -1030,7 +1276,7 @@ function calcTotal(){
   const promoSavings = (promoVisible && selPromo === 'desconto') ? desc : 0;
   const totalSavings = photoSavings + promoSavings + couponDiscount;
 
-  return { total, desc, promoLabel, couponDiscount, savings: totalSavings };
+  return { total, raw, desc, promoLabel, couponDiscount, savings: totalSavings };
 }
 
 function parseMoney(value, fallback){
@@ -1051,6 +1297,7 @@ function updateSummary(){
   const sEconomy = document.getElementById('s-economy');
   if(sEconomy) sEconomy.textContent = 'R$ '+fmt(savings);
   updateCouponUI();
+  checkCouponSuspension();
   const cartItems = document.getElementById('cart-items');
   const btnSend = document.getElementById('btn-send');
   if(!cartItems) { updateCartNavCount(); return; }
@@ -1068,7 +1315,7 @@ function updateSummary(){
   }).join('') : `
     <div class="cart-empty">
       <strong>Carrinho vazio</strong>
-      <span>Escolha cobertura, modelo e papel. Depois clique em “Adicionar ao carrinho”.</span>
+      <span>Escolha um produto acima e clique em “Adicionar ao carrinho”.</span>
     </div>`;
 
   const sQty = document.getElementById('s-qty');

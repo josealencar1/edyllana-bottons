@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Bottons · Edyllana — Bottons artesanais e photocards</title>
+<title>Edyllana Personalizados — Bottons artesanais e photocards</title>
 <meta name="description" content="Bottons artesanais personalizados e photocards em acabamentos laminado ou plastificado. Entrega pessoal, sem frete, com tabela de preços organizada."/>
 <meta name="theme-color" content="#c084fc"/>
-<meta property="og:title" content="Bottons · Edyllana"/>
+<meta property="og:title" content="Edyllana Personalizados"/>
 <meta property="og:description" content="Transforme sua foto favorita em bottons e photocards personalizados, com entrega pessoal e sem frete."/>
 <meta property="og:type" content="website"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -31,8 +31,8 @@
 <!-- ══════════ NAV ══════════ -->
 <nav>
   <div class="brand" data-magnetic>
-    <em>Bottons</em>
-    <sub>by Edyllana</sub>
+    <em>Edyllana</em>
+    <sub>Personalizados</sub>
   </div>
   <div class="nav-right">
     <a class="theme-btn" href="index.html">Início</a>
@@ -58,7 +58,7 @@
 
     <div class="order-headline">
       <div class="sec-eyebrow">Pedido</div>
-      <div class="sec-title">Monta seu <em>botton</em></div>
+      <div class="sec-title">Monta seu <em>pedido</em></div>
       <p>Preencha os campos abaixo e seu pedido vai direto pro WhatsApp.</p>
     </div>
 
@@ -106,6 +106,7 @@
         <div class="step-hd"><div class="step-n">3</div><div class="step-ttl">Tipo do papel</div></div>
         <p style="font-size:.82rem;color:var(--muted)">Escolha o papel da impressão.</p>
         <div class="pills" id="papel-pills"></div>
+        <div class="paper-warning" id="paper-warning" role="status">⚠️ O A4 mancha e desbota com o tempo. O fotográfico mantém as cores vivas e nítidas — a diferença são só R$ 0,50.</div>
       </div>
 
       <!-- 4. Quantidade -->
@@ -146,8 +147,10 @@
         <p style="font-size:.82rem;color:var(--muted)">Escolha o acabamento, a frente ou a frente e verso, e a quantidade com preço em faixa.</p>
 
         <div class="step-hd" style="margin-top:.5rem"><div class="step-n">1</div><div class="step-ttl">Modelo de photocard</div></div>
-        <div class="pills" id="photo-order-models"></div>
-        <div id="photo-order-preview" class="img-preview-box" style="margin-top:1rem"></div>
+        <div id="photo-order-preview" class="photo-mini-preview">
+          <img id="photo-order-preview-img" src="img/Frente laminado.png" alt="Photocard selecionado">
+        </div>
+        <div class="photo-finishes" id="photo-order-models"></div>
 
         <div class="step-hd" style="margin-top:1rem"><div class="step-n">2</div><div class="step-ttl">Quantidade</div></div>
         <div class="pills" id="photo-order-qty"></div>
@@ -232,7 +235,7 @@
     <div class="modal-top-line"></div>
 
     <h3 style="margin-bottom:.3rem">Quase lá! <em>Envie a foto</em></h3>
-    <p class="modal-sub">Antes de abrir o WhatsApp, só lembra: envie a imagem como <strong>documento</strong>. Assim a foto chega sem perder qualidade e o botton fica mais bonito.</p>
+    <p class="modal-sub">Antes de abrir o WhatsApp, só lembra: envie a imagem como <strong>documento</strong>. Assim a foto chega sem perder qualidade e o produto fica mais bonito.</p>
 
     <!-- Mockup WhatsApp Inteligente (Renders beautiful tutorial images) -->
     <div class="wapp-mock">

@@ -1,0 +1,7 @@
+# Backup do repositório (não versionar)
+.git.corrompido.bak/
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store
