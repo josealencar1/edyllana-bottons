@@ -71,14 +71,24 @@ let cfg = {
   preco_papel_fotografico: 0.50,
   promo_minimo: 2, desconto_valor: 1,
   desconto_tipo: 'reais', brindes_disponiveis: true,
-  descricao_brinde: 'O que tiver aqui quero que apareça no site',
+  descricao_brinde: 'Brinde surpresa',
 };
 let qty=1, selPlast='transparente', selModelo=DEFAULT_MODEL, selPapel='fotografico',
     selPromo='brinde', promoVisible=false, cart=[], selectedPhotoQty=1,
     selectedPhotoModel = null, selectedProductType = 'botton',
-    selectedSelectionMode='normal', appliedCoupon=null, couponSuspended=false,
+    selectedProtetor = 'none', selectedSelectionMode='normal', appliedCoupon=null, couponSuspended=false,
     photoPreviewToken=0,
-    favorites = JSON.parse(localStorage.getItem('edyllana-favorites') || '[]');
+    favorites = loadStoredFavorites();
+
+function loadStoredFavorites(){
+  try {
+    const stored = JSON.parse(localStorage.getItem('edyllana-favorites') || '[]');
+    return Array.isArray(stored) ? stored.filter(id => typeof id === 'string') : [];
+  } catch(e){
+    localStorage.removeItem('edyllana-favorites');
+    return [];
+  }
+}
 
 /* ═══════════ PARTICLES CANVAS ═══════════ */
 (function initParticles(){
@@ -523,7 +533,7 @@ async function loadConfig(){
   cfg = Object.assign({
     preco_papel_fotografico: 0.50,
     promo_minimo: 2, desconto_valor: 1, desconto_tipo: 'reais',
-    brindes_disponiveis: true, descricao_brinde: 'O que tiver aqui quero que apareça no site'
+    brindes_disponiveis: true, descricao_brinde: 'Brinde surpresa'
   }, cfg || {});
 
   buildOrderUI();
@@ -672,6 +682,9 @@ function addToCart(){
     id: item.id,
     type: 'botton',
     label: `Botton ${info.modelo} · ${info.cover} · ${info.papel}`,
+    plast: item.plast,
+    modelo: item.modelo,
+    papel: item.papel,
     qty: item.qty,
     unit: info.unit,
     subtotal: info.subtotal
@@ -688,9 +701,13 @@ function addToCart(){
 function restoreCart(){
   try {
     const saved = localStorage.getItem('edyllana-cart');
-    if(saved) cart = JSON.parse(saved);
+    if(saved){
+      const restored = JSON.parse(saved);
+      cart = Array.isArray(restored) ? restored : [];
+    }
   } catch(e){
     cart = [];
+    localStorage.removeItem('edyllana-cart');
   }
 }
 
@@ -732,7 +749,8 @@ function getItemInfo(item){
 
 function describeCartItem(item, index){
   if(item.type === 'photocard'){
-    return `${index + 1}. Photocard ${item.label} — R$ ${fmt(item.subtotal)}`;
+    const protetor = item.protetorLabel ? ` | ${item.protetorLabel}` : '';
+    return `${index + 1}. ${item.label}${protetor} — R$ ${fmt(item.subtotal)}`;
   }
   const info = getItemInfo({ plast: item.plast || selPlast, modelo: item.modelo || DEFAULT_MODEL, papel: item.papel || 'a4', qty: item.qty });
   return `${index + 1}. ${item.qty}x ${info.modelo} | ${info.cover} | ${info.papel} — R$ ${fmt(item.subtotal)}`;
@@ -962,9 +980,11 @@ function updatePhotocardOrderPreview(){
   const savingsEl = document.getElementById('photo-savings');
   const savingsTextEl = document.getElementById('photo-savings-text');
   const fillEl = document.getElementById('photo-economy-fill');
-
+  // Atualiza totais unitário e total do selecionado (sem protetor ainda)
   if(unit && unitEl) unitEl.textContent = `R$ ${fmt(unit.price / unit.qty)}`;
   if(unit && totalEl) totalEl.textContent = `R$ ${fmt(unit.price)}`;
+
+  updateProtetorUI();
 
   if(unit && fullPriceEl && savingsEl){
     const singleTier = item.tiers.find(t => t.qty === 1) || unit;
@@ -992,11 +1012,49 @@ function setPhotoQty(qty){
   updatePhotocardOrderPreview();
 }
 
+function selectProtetor(tipo){
+  const validas = ['none','basico','figurinhas'];
+  if(!validas.includes(tipo)) return;
+  selectedProtetor = tipo;
+  updateProtetorUI();
+}
+
+function updateProtetorUI(){
+  const options = {
+    none: { label:'Sem protetor', price:0 },
+    basico: { label:'Protetor transparente', price:5 },
+    figurinhas: { label:'Protetor + figurinhas', price:10 }
+  };
+  const selected = options[selectedProtetor] || options.none;
+  const noneBtn = document.getElementById('protetor-none-btn');
+  const basicoBtn = document.getElementById('protetor-basico-btn');
+  const figurinhasBtn = document.getElementById('protetor-figurinhas-btn');
+  const basicoCard = document.getElementById('protetor-card-basico');
+  const figurinhasCard = document.getElementById('protetor-card-figurinhas');
+  const totalEl = document.getElementById('photo-order-protetor-total');
+
+  noneBtn?.classList.toggle('on', selectedProtetor === 'none');
+  basicoBtn?.classList.toggle('on', selectedProtetor === 'basico');
+  figurinhasBtn?.classList.toggle('on', selectedProtetor === 'figurinhas');
+  basicoCard?.classList.toggle('is-selected', selectedProtetor === 'basico');
+  figurinhasCard?.classList.toggle('is-selected', selectedProtetor === 'figurinhas');
+  noneBtn?.setAttribute('aria-pressed', String(selectedProtetor === 'none'));
+  basicoBtn?.setAttribute('aria-pressed', String(selectedProtetor === 'basico'));
+  figurinhasBtn?.setAttribute('aria-pressed', String(selectedProtetor === 'figurinhas'));
+  if(totalEl) totalEl.textContent = selected.price ? `${selected.label} · R$ ${fmt(selected.price)}` : selected.label;
+}
+
 function addPhotocardToCart(){
   const item = PHOTOCARDS.find(p => p.id === selectedPhotoModel);
   if(!item) return;
   const tier = item.tiers.find(t => t.qty === selectedPhotoQty);
   if(!tier) return;
+  const protetorPreco = { basico: 5, figurinhas: 10 }[selectedProtetor] || 0;
+  const protetorLabel = {
+    none: 'Sem protetor',
+    basico: 'Protetor transparente (+ R$ 5,00)',
+    figurinhas: 'Protetor + figurinhas (+ R$ 10,00)'
+  }[selectedProtetor];
   cart.push({
     id: `photo-${Date.now()}-${Math.random().toString(36).slice(2)}`,
     type: 'photocard',
@@ -1005,7 +1063,11 @@ function addPhotocardToCart(){
     label: `Photocard ${item.name} · ${tier.qty} un.`,
     qty: tier.qty,
     unit: tier.price / tier.qty,
-    subtotal: tier.price
+    photoSubtotal: tier.price,
+    protetor: selectedProtetor,
+    protetorLabel,
+    protetorPrice: protetorPreco,
+    subtotal: tier.price + protetorPreco
   });
   persistCart();
   updateSummary();
@@ -1123,7 +1185,9 @@ function restoreCartFromUrl(){
   const params = new URLSearchParams(location.search);
   if(!params.has('cart')) return;
   try {
-    cart = JSON.parse(decodeURIComponent(escape(atob(params.get('cart')))));
+    const restored = JSON.parse(decodeURIComponent(escape(atob(params.get('cart')))));
+    if(!Array.isArray(restored)) throw new Error('Formato de carrinho inválido');
+    cart = restored;
     persistCart();
     updateCartNavCount();
   } catch(e){
@@ -1206,6 +1270,10 @@ function quickAddPhotocard(photoId, qty){
     label: `Photocard ${item.name} · ${tier.qty} un.`,
     qty: tier.qty,
     unit: tier.price / tier.qty,
+    photoSubtotal: tier.price,
+    protetor: 'none',
+    protetorLabel: 'Sem protetor',
+    protetorPrice: 0,
     subtotal: tier.price
   });
   persistCart();
@@ -1270,7 +1338,8 @@ function calcTotal(){
     if(!photo) return sum;
     const singleTier = photo.tiers.find(t => t.qty === 1) || photo.tiers[0];
     const singleUnitPrice = singleTier.price / singleTier.qty;
-    return sum + Math.max(0, (singleUnitPrice * (Number(item.qty) || 0)) - (Number(item.subtotal) || 0));
+    const photoSubtotal = Number(item.photoSubtotal ?? ((Number(item.subtotal) || 0) - (Number(item.protetorPrice) || 0)));
+    return sum + Math.max(0, (singleUnitPrice * (Number(item.qty) || 0)) - photoSubtotal);
   }, 0);
 
   const promoSavings = (promoVisible && selPromo === 'desconto') ? desc : 0;
@@ -1307,7 +1376,7 @@ function updateSummary(){
       <div class="cart-item">
         <div>
           <div class="cart-item-title">${index + 1}. ${item.label}</div>
-          <div class="cart-item-details">${item.type === 'botton' ? 'Botton personalizado' : 'Photocard'}</div>
+          <div class="cart-item-details">${item.type === 'botton' ? 'Botton personalizado' : (item.protetorLabel || 'Sem protetor')}</div>
           <div class="cart-item-subtotal">Subtotal: R$ ${fmt(item.subtotal)}</div>
         </div>
         <button class="cart-remove" onclick="removeFromCart('${item.id}')">Remover</button>

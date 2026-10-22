@@ -183,6 +183,45 @@
           </table>
         </div>
 
+        <!-- Protetor opcional -->
+        <div class="photo-protetor" id="photo-order-protetor">
+          <div class="step-hd"><div class="step-n">3</div><div class="step-ttl">Protetor opcional</div></div>
+          <p class="protetor-intro">Proteja seu photocard ou personalize o protetor com figurinhas do seu gosto.</p>
+
+          <div class="protetor-none-row">
+            <button class="pill on" id="protetor-none-btn" type="button" aria-pressed="true" onclick="selectProtetor('none')">Sem protetor</button>
+            <span>Sem custo adicional</span>
+          </div>
+
+          <div class="protetor-grid">
+            <article class="protetor-card" id="protetor-card-basico">
+              <div class="protetor-media">
+                <img src="img/Protetor.png" alt="Protetor transparente para photocard">
+              </div>
+              <div class="protetor-body">
+                <span class="protetor-badge">Proteção</span>
+                <h3>Protetor transparente</h3>
+                <p>Proteção simples para conservar seu photocard.</p>
+                <button class="protetor-select" id="protetor-basico-btn" type="button" aria-pressed="false" onclick="selectProtetor('basico')">Escolher · R$ 5,00</button>
+              </div>
+            </article>
+
+            <article class="protetor-card" id="protetor-card-figurinhas">
+              <div class="protetor-media">
+                <img src="img/Protetor_figurinhas.png" alt="Protetor para photocard personalizado com figurinhas">
+              </div>
+              <div class="protetor-body">
+                <span class="protetor-badge">Personalizado</span>
+                <h3>Protetor + figurinhas</h3>
+                <p>Protetor de R$ 5,00 + personalização com figurinhas por R$ 5,00.</p>
+                <button class="protetor-select" id="protetor-figurinhas-btn" type="button" aria-pressed="false" onclick="selectProtetor('figurinhas')">Escolher · R$ 10,00</button>
+              </div>
+            </article>
+          </div>
+
+          <div class="sum-row protetor-total-row"><span class="lft">Opção selecionada</span><span class="rgt" id="photo-order-protetor-total">Sem protetor</span></div>
+        </div>
+
         <button class="btn-add-cart" onclick="addPhotocardToCart()">Adicionar photocard ao carrinho</button>
       </div>
 
