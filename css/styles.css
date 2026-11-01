@@ -465,7 +465,7 @@ nav {
   white-space: nowrap;
   display: flex; align-items: center; gap: 2.5rem;
 }
-.marquee-item::after { content: '✦'; color: var(--accent); font-size: .5rem; }
+.marquee-item::after { content: ''; display: inline-block; width: .38rem; height: .38rem; background: var(--accent); transform: rotate(45deg); margin-left: 1.4rem; vertical-align: middle; }
 
 /* ═══════════════════════════════════════════
    PORTFOLIO / CAROUSEL
@@ -1857,4 +1857,38 @@ nav {
   color: #fff;
   background: linear-gradient(135deg, var(--accent2), var(--accent3));
   box-shadow: 0 0 24px rgba(168,85,247,.35);
+}
+
+/* Menu: página atual e ajuste para telas pequenas */
+.nav-right a.theme-btn.is-current {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(192,132,252,.1);
+}
+@media (max-width: 680px) {
+  .nav-right { gap: .35rem; }
+  .theme-btn { padding: .3rem .6rem; }
+  .nav-cta { display: none; }
+  #t-lbl { display: none; }
+}
+
+/* Ícones SVG */
+.ico { width: 1.1em; height: 1.1em; flex-shrink: 0; vertical-align: -.18em; }
+.theme-btn .ico { width: .95rem; height: .95rem; }
+.nav-cta .ico, .btn-primary .ico, .btn-ghost .ico, .back-btn .ico { width: 1em; height: 1em; vertical-align: -.15em; margin: 0 .1rem; }
+.hero-chip .ico { width: 1rem; height: 1rem; margin-right: .45rem; color: var(--accent); vertical-align: -.2em; }
+.promo-opt-ico .ico { width: 1.8rem; height: 1.8rem; color: var(--accent); }
+.step-n .ico { width: .95rem; height: .95rem; vertical-align: middle; }
+.car-arrow .ico, .qty-btn .ico { width: 1.1rem; height: 1.1rem; vertical-align: middle; }
+.paper-warning .ico { margin-right: .5rem; color: #fbbf24; vertical-align: -.2em; }
+.finish-chevron .ico, .po-chevron .ico { width: .9em; height: .9em; }
+.po-check .ico { width: .9em; height: .9em; }
+.finish-opt-arrow .ico { width: 1em; height: 1em; }
+
+/* Gavetas de opções do pedido (cobertura, modelo, papel) */
+.opt-drawer { display: block; margin-top: .25rem; }
+.po-trigger-meta { margin-left: .55rem; font-size: .72rem; font-weight: 600; color: var(--muted); }
+.po-drawer-pad.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 560px) {
+  .po-drawer-pad.cols-2 { grid-template-columns: 1fr; }
 }

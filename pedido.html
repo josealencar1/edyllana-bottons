@@ -11,7 +11,7 @@
 <meta property="og:type" content="website"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="styles.css"/>
+<link rel="stylesheet" href="css/styles.css"/>
 <link rel="icon" href="data:,"/>
 </head>
 <body>
@@ -38,15 +38,15 @@
     <a class="theme-btn" href="index.html">Início</a>
     <a class="theme-btn" href="catalogo.html">Catálogo</a>
     <button class="theme-btn" onclick="toggleTheme()">
-      <span id="t-ico">☀️</span><span id="t-lbl">Claro</span>
+      <span id="t-ico"></span><span id="t-lbl">Claro</span>
     </button>
     <a class="theme-btn" href="catalogo.html#favorites-section" aria-label="Ver favoritos">
-      ★ <span id="nav-fav-count">0</span>
+      <i data-ico="star"></i><span id="nav-fav-count">0</span>
     </a>
     <a class="theme-btn" href="pedido.html" aria-label="Abrir carrinho">
-      🛒 <span id="nav-cart-count">0</span>
+      <i data-ico="cart"></i><span id="nav-cart-count">0</span>
     </a>
-    <a class="nav-cta" data-magnetic href="pedido.html">Fazer pedido →</a>
+    <a class="nav-cta" data-magnetic href="pedido.html">Fazer pedido <i data-ico="arrow-right"></i></a>
   </div>
 </nav>
 
@@ -54,7 +54,7 @@
 <div id="page-order">
   <div class="order-wrap">
 
-    <button class="back-btn" onclick="location.href='index.html'">← Voltar</button>
+    <button class="back-btn" onclick="history.length>1?history.back():location.href='index.html'"><i data-ico="arrow-left"></i> Voltar</button>
 
     <div class="order-headline">
       <div class="sec-eyebrow">Pedido</div>
@@ -106,32 +106,32 @@
         <div class="step-hd"><div class="step-n">3</div><div class="step-ttl">Tipo do papel</div></div>
         <p style="font-size:.82rem;color:var(--muted)">Escolha o papel da impressão.</p>
         <div class="pills" id="papel-pills"></div>
-        <div class="paper-warning" id="paper-warning" role="status">⚠️ O A4 mancha e desbota com o tempo. O fotográfico mantém as cores vivas e nítidas — a diferença são só R$ 0,50.</div>
+        <div class="paper-warning" id="paper-warning" role="status"><i data-ico="alert"></i><span>O A4 mancha e desbota com o tempo. O fotográfico mantém as cores vivas e nítidas — a diferença são só R$ 0,50.</span></div>
       </div>
 
       <!-- 4. Quantidade -->
       <div class="step-block reveal delay-3">
         <div class="step-hd"><div class="step-n">4</div><div class="step-ttl">Quantidade</div></div>
         <div class="qty-row">
-          <button class="qty-btn" onclick="changeQty(-1)">−</button>
+          <button class="qty-btn" onclick="changeQty(-1)" aria-label="Diminuir quantidade"><i data-ico="minus"></i></button>
           <span class="qty-n" id="qty-disp">1</span>
-          <button class="qty-btn" onclick="changeQty(1)">+</button>
+          <button class="qty-btn" onclick="changeQty(1)" aria-label="Aumentar quantidade"><i data-ico="plus"></i></button>
         </div>
         <button class="btn-add-cart" onclick="addToCart()">Adicionar ao carrinho</button>
       </div>
 
       <!-- 5. Promoção -->
       <div class="step-block reveal delay-4" id="promo-block" style="display:none">
-        <div class="step-hd"><div class="step-n" id="step-promo-n">5</div><div class="step-ttl">Benefício disponível! 🎉</div></div>
+        <div class="step-hd"><div class="step-n" id="step-promo-n">5</div><div class="step-ttl">Benefício disponível!</div></div>
         <p style="font-size:.82rem;color:var(--muted)" id="promo-block-desc"></p>
         <div class="promo-choice">
           <button class="promo-opt on" id="opt-brinde" onclick="selectPromo('brinde')">
-            <div class="promo-opt-ico">🎁</div>
+            <div class="promo-opt-ico"><i data-ico="gift"></i></div>
             <span class="promo-opt-name">Quero o brinde</span>
             <span class="promo-opt-desc">Sem desconto no valor</span>
           </button>
           <button class="promo-opt" id="opt-desconto" onclick="selectPromo('desconto')">
-            <div class="promo-opt-ico">💸</div>
+            <div class="promo-opt-ico"><i data-ico="tag"></i></div>
             <span class="promo-opt-name">Prefiro o desconto</span>
             <span class="promo-opt-desc" id="desc-pct-label"></span>
           </button>
@@ -143,10 +143,10 @@
 
       <!-- PHOTOCARD ORDER -->
       <div class="step-block reveal" id="panel-photocard" style="display:none">
-        <div class="step-hd"><div class="step-n">1</div><div class="step-ttl">Photocard laminado ou plastificado</div></div>
+        <div class="step-hd"><div class="step-n"><i data-ico="card"></i></div><div class="step-ttl">Photocard</div></div>
         <p style="font-size:.82rem;color:var(--muted)">Escolha o acabamento, a frente ou a frente e verso, e a quantidade com preço em faixa.</p>
 
-        <div class="step-hd" style="margin-top:.5rem"><div class="step-n">1</div><div class="step-ttl">Modelo de photocard</div></div>
+        <div class="step-hd" style="margin-top:.5rem"><div class="step-n">1</div><div class="step-ttl">Acabamento e modelo</div></div>
         <div id="photo-order-preview" class="photo-mini-preview">
           <img id="photo-order-preview-img" src="img/Frente laminado.png" alt="Photocard selecionado">
         </div>
@@ -227,7 +227,7 @@
 
       <!-- CATALOGO RAPIDO -->
       <div class="step-block reveal" id="panel-catalog" style="display:none">
-        <div class="step-hd"><div class="step-n">★</div><div class="step-ttl">Catálogo rápido</div></div>
+        <div class="step-hd"><div class="step-n"><i data-ico="star"></i></div><div class="step-ttl">Catálogo rápido</div></div>
         <p style="font-size:.82rem;color:var(--muted)">Adicione produtos com um clique, sem configurar cada um manualmente.</p>
         <div class="catalog-grid" id="catalog-grid"></div>
       </div>
@@ -316,6 +316,6 @@
 <!-- ══════════════════════════════════════════
    JAVASCRIPT — TUDO ORIGINAL + EFEITOS
 ══════════════════════════════════════════ -->
-<script src="script.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>

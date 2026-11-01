@@ -27,7 +27,7 @@ Site 100% estático: HTML, CSS e JavaScript puro, pronto para GitHub Pages.
 
 ## Prévia de preços
 
-![Tabela de preços dos photocards](precos-photocards.png)
+![Tabela de preços dos photocards](img/precos-photocards.png)
 
 ## Estrutura
 
@@ -36,11 +36,11 @@ edyllana-bottons/
 ├── index.html               # página inicial
 ├── catalogo.html            # catálogo e favoritos
 ├── pedido.html              # montagem e envio do pedido
-├── styles.css               # estilo compartilhado
-├── script.js                # lógica, preços e configurações
-├── img/                     # artes e fotos dos produtos
-├── assets/                  # arquivos auxiliares
-└── precos-photocards.png    # tabela de referência de preços
+├── css/
+│   └── styles.css           # estilo compartilhado
+├── js/
+│   └── script.js            # lógica, preços e configurações
+└── img/                     # artes, fotos dos produtos e tabela de preços
 ```
 
 ## Como executar
@@ -62,7 +62,7 @@ python -m http.server 8000
 
 ## Configurações
 
-Tudo é editado no topo do `script.js`:
+Tudo é editado no topo do `js/script.js`:
 
 - **Cupons** — objeto `COUPONS` (ex.: `DEVJOSE`, R$ 2,00 de desconto em compras acima de R$ 30,00).
 - **Preços** — arrays `MODELS`, `COVERS` e `PHOTOCARDS` com valores e faixas.

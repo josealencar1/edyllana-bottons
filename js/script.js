@@ -66,6 +66,45 @@ const PHOTO_FINISHES = [
     variants:[ {id:'frente-verso-plastificado', label:'Frente e Verso'}, {id:'frente-plastificado', label:'Frente'} ] },
 ];
 
+/* ═══════════ ÍCONES (SVG nativos, herdam a cor do texto) ═══════════ */
+const ICON_PATHS = {
+  'sun':         '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>',
+  'moon':        '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
+  'star':        '<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/>',
+  'cart':        '<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 7H6"/>',
+  'arrow-right': '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  'arrow-left':  '<path d="M19 12H5M11 6l-6 6 6 6"/>',
+  'arrow-down':  '<path d="M12 5v14M6 13l6 6 6-6"/>',
+  'chevron':     '<path d="M6 9l6 6 6-6"/>',
+  'check':       '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  'alert':       '<path d="M12 3.5L2.5 20h19L12 3.5z"/><path d="M12 10v4.5M12 17.5v.01"/>',
+  'gift':        '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8M7.5 8a2.5 2.5 0 1 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 1 1 0 5"/>',
+  'tag':         '<path d="M3 12.6V4a1 1 0 0 1 1-1h8.6a1 1 0 0 1 .7.3l7.4 7.4a1 1 0 0 1 0 1.4l-8.6 8.6a1 1 0 0 1-1.4 0L3.3 13.3a1 1 0 0 1-.3-.7z"/><circle cx="7.5" cy="7.5" r="1.2"/>',
+  'card':        '<rect x="5" y="2.5" width="14" height="19" rx="2"/><path d="M9 7.5h6M9 11.5h6"/>',
+  'pin':         '<path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/>',
+  'cap':         '<path d="M2 9l10-5 10 5-10 5L2 9z"/><path d="M6 11.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5M22 9v6"/>',
+  'bolt':        '<path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>',
+  'sparkle':     '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2z"/>',
+  'minus':       '<path d="M5 12h14"/>',
+  'plus':        '<path d="M12 5v14M5 12h14"/>'
+};
+function icon(name, extraClass){
+  const fill = name === 'star' ? ' fill="currentColor"' : ' fill="none"';
+  return `<svg class="ico${extraClass ? ' ' + extraClass : ''}" viewBox="0 0 24 24"${fill} stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON_PATHS[name] || ''}</svg>`;
+}
+/* Troca <i data-ico="nome"></i> pelo SVG correspondente */
+const ICON_SUN = icon('sun'), ICON_MOON = icon('moon');
+function applyThemeIcon(dark){
+  const el = document.getElementById('t-ico');
+  if(el) el.innerHTML = dark ? ICON_SUN : ICON_MOON;
+}
+function hydrateIcons(root){
+  (root || document).querySelectorAll('i[data-ico]').forEach(el => {
+    el.outerHTML = icon(el.dataset.ico);
+  });
+}
+hydrateIcons();
+
 /* ═══════════ STATE ═══════════ */
 let cfg = {
   preco_papel_fotografico: 0.50,
@@ -123,7 +162,7 @@ function loadStoredFavorites(){
       const dx = this.x - mouse.x;
       const dy = this.y - mouse.y;
       const dist = Math.sqrt(dx*dx + dy*dy);
-      if(dist < 120){
+      if(dist > 0 && dist < 120){
         const force = (120 - dist) / 120 * .4;
         this.vx += dx / dist * force;
         this.vy += dy / dist * force;
@@ -303,14 +342,11 @@ function favButtonHTML(id){
         </div>
       </div>`;
     g.appendChild(card);
-    
-    // late init for observer
-    setTimeout(()=>{ document.querySelectorAll('.reveal').forEach(el=>{
-      new IntersectionObserver(entries=>{
-        entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
-      },{threshold:.1}).observe(el);
-    });},0);
     });
+    const coverObs = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); coverObs.unobserve(e.target); } });
+    },{ threshold:.1 });
+    g.querySelectorAll('.reveal').forEach(el => coverObs.observe(el));
   }
   initPhotocards();
   restoreCart();
@@ -318,12 +354,13 @@ function favButtonHTML(id){
   updateFavNavCount();
 
   const savedTheme = localStorage.getItem('edyllana-theme');
+  applyThemeIcon(savedTheme === 'light' ? false : true);
   if(savedTheme === 'light' || savedTheme === 'dark'){
     document.documentElement.setAttribute('data-theme', savedTheme);
     const dark = savedTheme === 'dark';
     const icon = document.getElementById('t-ico');
     const label = document.getElementById('t-lbl');
-    if(icon) icon.textContent = dark ? '☀️' : '🌙';
+    if(icon) icon.innerHTML = dark ? ICON_SUN : ICON_MOON;
     if(label) label.textContent = dark ? 'Claro' : 'Escuro';
   }
 })();
@@ -369,7 +406,7 @@ function buildFinishCard(fin){
         <p>${fin.desc}</p>
       </div>
       <button class="finish-toggle" type="button" aria-expanded="false">
-        Escolher <span class="finish-chevron">▾</span>
+        Escolher <span class="finish-chevron">${icon('chevron')}</span>
       </button>
     </div>
     <div class="finish-drawer">
@@ -381,7 +418,7 @@ function buildFinishCard(fin){
             return `
             <div class="finish-row">
               <a class="finish-opt" href="pedido.html?tipo=photocard&modelo=${v.id}" data-img="${img}">
-                <span class="finish-opt-hd">${v.label}<span class="finish-opt-arrow">→</span></span>
+                <span class="finish-opt-hd">${v.label}<span class="finish-opt-arrow">${icon('arrow-right')}</span></span>
                 <span class="finish-opt-prices">${ph.tiers.map(t=>`<em>${t.qty} un. · R$ ${fmt(t.price)}</em>`).join('')}</span>
               </a>
               ${favButtonHTML(v.id)}
@@ -557,106 +594,112 @@ async function loadConfig(){
 
 /* ═══════════ BUILD ORDER UI ═══════════ */
 function buildOrderUI(){
-  // --- COBERTURA ---
-  const pp = document.getElementById('plast-pills');
   const prevPlast = document.getElementById('preview-cobertura');
-  if(!pp || !prevPlast) return;
-  pp.innerHTML = '';
-  
-  COVERS.forEach(c=>{
-    const b = document.createElement('button');
-    b.className = 'pill' + (c.id===selPlast?' on':'');
-    b.textContent = (c.extra||0) > 0 ? `${c.label} · +R$ ${fmt(c.extra)}` : c.label;
-    
-    // Troca a imagem da caixa de visualização quando o mouse passa por cima (hover) ou clica no celular
-    b.onmouseenter = () => prevPlast.style.backgroundImage = `url('${c.img}')`;
-    b.onmouseleave = () => {
-      const activeCover = COVERS.find(cv => cv.id === selPlast);
-      prevPlast.style.backgroundImage = `url('${activeCover.img}')`;
-    };
-    
-    b.onclick = ()=>{ 
-      selPlast=c.id; 
-      setActive(pp,b); 
-      prevPlast.style.backgroundImage = `url('${c.img}')`;
-      updateSummary(); 
-    };
-    pp.appendChild(b);
+  const prevModel = document.getElementById('preview-modelo');
+  if(!prevPlast || !prevModel) return;
+  const showBg = (box, img) => { box.style.backgroundImage = `url('${img}')`; };
+
+  // --- COBERTURA ---
+  setupDrawer('plast-pills', {
+    cols: 2,
+    options: () => COVERS.map(c => ({ id:c.id, label:c.label, meta:(c.extra||0) > 0 ? `+R$ ${fmt(c.extra)}` : 'Padrão', img:c.img })),
+    getSel: () => selPlast,
+    onPick: id => { selPlast = id; showBg(prevPlast, COVERS.find(c => c.id === id).img); updateSummary(); },
+    onPreview: img => showBg(prevPlast, img || COVERS.find(c => c.id === selPlast).img)
   });
-  
-  // Define a imagem inicial da cobertura
-  prevPlast.style.backgroundImage = `url('${COVERS.find(c=>c.id===selPlast).img}')`;
+  showBg(prevPlast, COVERS.find(c => c.id === selPlast).img);
+
+  // --- MODELO ---
+  setupDrawer('model-pills', {
+    options: () => MODELS.map(m => ({ id:m.id, label:m.label, meta:`R$ ${fmt(m.price)}`, img:m.img })),
+    getSel: () => selModelo,
+    onPick: id => { selModelo = id; showBg(prevModel, MODELS.find(m => m.id === id).img); updateSummary(); },
+    onPreview: img => {
+      const active = MODELS.find(m => m.id === selModelo) || MODELS.find(m => m.id === DEFAULT_MODEL);
+      showBg(prevModel, img || active.img);
+    }
+  });
+  showBg(prevModel, (MODELS.find(m => m.id === selModelo) || MODELS.find(m => m.id === DEFAULT_MODEL)).img);
 
   // --- PAPEL ---
-  const papelPills = document.getElementById('papel-pills');
-  papelPills.innerHTML = '';
-  const PAPEIS = [
-    { id:'a4', label:'A4' },
-    { id:'fotografico', label:`Papel Fotográfico (+R$ ${fmt(cfg.preco_papel_fotografico)})` }
-  ];
-
-  PAPEIS.forEach(p=>{
-    const wrap = document.createElement('div');
-    wrap.className = 'papel-opt';
-    // Caixinha "Recomendado" acima do botão (invisível no A4 para alinhar as pílulas)
-    const tag = document.createElement('span');
-    tag.className = 'papel-reco' + (p.id==='fotografico' ? '' : ' is-blank');
-    tag.textContent = 'Recomendado';
-    const b = document.createElement('button');
-    b.className = 'pill' + (p.id===selPapel?' on':'');
-    b.textContent = p.label;
-    b.onclick = ()=>{
-      selPapel = p.id;
-      setActive(papelPills,b);
-      updatePaperWarning();
-      updateSummary();
-    };
-    wrap.appendChild(tag);
-    wrap.appendChild(b);
-    papelPills.appendChild(wrap);
+  setupDrawer('papel-pills', {
+    options: () => [
+      { id:'a4',          label:'A4',                meta:'Sem custo extra' },
+      { id:'fotografico', label:'Papel fotográfico', meta:`+R$ ${fmt(cfg.preco_papel_fotografico)} · Recomendado` }
+    ],
+    getSel: () => selPapel,
+    onPick: id => { selPapel = id; updatePaperWarning(); updateSummary(); }
   });
   updatePaperWarning();
-
-  // --- MODELOS ---
-  const mp = document.getElementById('model-pills');
-  const prevModel = document.getElementById('preview-modelo');
-  mp.innerHTML = '';
-  
-  MODELS.forEach(m=>{
-    const b = document.createElement('button');
-    b.className = 'pill' + (m.id===selModelo?' on':'');
-    b.textContent = `${m.label} · R$ ${fmt(m.price)}`;
-    
-    // Troca a imagem da caixa de visualização quando o mouse passa por cima ou clica
-    b.onmouseenter = () => prevModel.style.backgroundImage = `url('${m.img}')`;
-    b.onmouseleave = () => {
-      const activeModel = MODELS.find(md => md.id === selModelo) || MODELS.find(md => md.id === DEFAULT_MODEL);
-      prevModel.style.backgroundImage = `url('${activeModel.img}')`;
-    };
-    
-    b.onclick = ()=>{ 
-      selModelo=m.id; 
-      setActive(mp,b); 
-      prevModel.style.backgroundImage = `url('${m.img}')`;
-      updateSummary(); 
-    };
-    mp.appendChild(b);
-  });
-  
-  // Define a imagem inicial do Modelo
-  const startModel = MODELS.find(m=>m.id===selModelo) || MODELS.find(m=>m.id===DEFAULT_MODEL);
-  prevModel.style.backgroundImage = `url('${startModel.img}')`;
 
   document.getElementById('desc-pct-label').textContent =
     cfg.desconto_tipo==='pct' ? `Desconto de ${cfg.desconto_valor}%` : `Desconto de R$ ${fmt(cfg.desconto_valor)}`;
 }
 
-function setActive(container, btn){
-  container.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
-  btn.classList.add('on');
+/* ═══════════ GAVETA DE OPÇÕES (mesmo padrão do photocard) ═══════════
+   Desktop: abre ao passar o mouse e a imagem de prévia acompanha a opção.
+   Celular: abre/fecha no toque. Teclado: abre com foco, Esc fecha. */
+function setupDrawer(hostId, cfg){
+  const host = document.getElementById(hostId);
+  if(!host) return;
+  host.className = 'opt-drawer';
+  const hoverable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const box = () => host.querySelector('.po-finish');
+  const setOpen = open => {
+    box()?.classList.toggle('open', open);
+    host.querySelector('.po-trigger')?.setAttribute('aria-expanded', String(open));
+  };
+
+  const render = open => {
+    const opts = cfg.options();
+    const sel = opts.find(o => o.id === cfg.getSel()) || opts[0];
+    host.innerHTML = `
+      <div class="po-finish${open ? ' open' : ''}">
+        <button class="po-trigger" type="button" aria-expanded="${!!open}">
+          <span class="po-trigger-name">${sel.label}${sel.meta ? `<small class="po-trigger-meta">${sel.meta}</small>` : ''}</span>
+          <span class="po-trigger-side">Alterar <span class="po-chevron">${icon('chevron')}</span></span>
+        </button>
+        <div class="po-drawer"><div class="po-drawer-inner"><div class="po-drawer-pad${cfg.cols === 2 ? ' cols-2' : ''}">
+          ${opts.map(o => `<button class="po-opt${o.id === sel.id ? ' on' : ''}" type="button" data-id="${o.id}"${o.img ? ` data-img="${o.img}"` : ''}>
+            <span>${o.label}</span>${o.meta ? `<em>${o.meta}</em>` : ''}
+          </button>`).join('')}
+        </div></div></div>
+      </div>`;
+  };
+  render(false);
+
+  if(hoverable){
+    host.addEventListener('mouseenter', () => setOpen(true));
+    host.addEventListener('mouseleave', () => {
+      if(!host.contains(document.activeElement)) setOpen(false);
+      cfg.onPreview?.(null);
+    });
+    host.addEventListener('mouseover', e => {
+      const opt = e.target.closest('.po-opt');
+      if(opt && opt.dataset.img) cfg.onPreview?.(opt.dataset.img);
+    });
+  }
+  host.addEventListener('focusin', () => setOpen(true));
+  host.addEventListener('focusout', e => {
+    if(!host.contains(e.relatedTarget)) setOpen(false);
+  });
+  host.addEventListener('keydown', e => {
+    if(e.key === 'Escape'){ setOpen(false); host.querySelector('.po-trigger')?.blur(); }
+  });
+  host.addEventListener('click', e => {
+    const opt = e.target.closest('.po-opt');
+    if(opt){
+      cfg.onPick(opt.dataset.id);
+      render(hoverable);          // desktop continua aberta sob o mouse; celular fecha
+      return;
+    }
+    if(e.target.closest('.po-trigger') && !hoverable){
+      setOpen(!box().classList.contains('open'));
+    }
+  });
 }
 
-/* Mostra o aviso ⚠️ do papel A4 apenas quando ele está selecionado */
+/* Mostra o aviso do papel A4 apenas quando ele está selecionado */
 function updatePaperWarning(){
   const w = document.getElementById('paper-warning');
   if(!w) return;
@@ -669,26 +712,73 @@ function changeQty(d){
   document.getElementById('qty-disp').textContent = qty;
 }
 
-function addToCart(){
-  const item = {
-    id: `cart-${Date.now()}-${Math.random().toString(36).slice(2)}`,
-    qty,
-    plast: selPlast,
-    modelo: selModelo,
-    papel: selPapel
-  };
-  const info = getItemInfo(item);
-  cart.push({
-    id: item.id,
+function newCartId(prefix){
+  return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
+
+function makeBottonItem(plast, modelo, papel, n){
+  const info = getItemInfo({ plast, modelo, papel, qty:n });
+  return {
+    id: newCartId('cart'),
     type: 'botton',
     label: `Botton ${info.modelo} · ${info.cover} · ${info.papel}`,
-    plast: item.plast,
-    modelo: item.modelo,
-    papel: item.papel,
-    qty: item.qty,
+    plast, modelo, papel,
+    qty: n,
     unit: info.unit,
     subtotal: info.subtotal
+  };
+}
+
+const PROTETORES = {
+  none:       { label:'Sem protetor',          price:0,  cartLabel:'Sem protetor' },
+  basico:     { label:'Protetor transparente', price:5,  cartLabel:'Protetor transparente (+ R$ 5,00)' },
+  figurinhas: { label:'Protetor + figurinhas', price:10, cartLabel:'Protetor + figurinhas (+ R$ 10,00)' }
+};
+
+function makePhotoItem(photo, tier, protetor){
+  const key = PROTETORES[protetor] ? protetor : 'none';
+  const prot = PROTETORES[key];
+  return {
+    id: newCartId('photo'),
+    type: 'photocard',
+    photoId: photo.id,
+    photoQty: tier.qty,
+    label: `Photocard ${photo.name} · ${tier.qty} un.`,
+    qty: tier.qty,
+    unit: tier.price / tier.qty,
+    photoSubtotal: tier.price,
+    protetor: key,
+    protetorLabel: prot.cartLabel,
+    protetorPrice: prot.price,
+    subtotal: tier.price + prot.price
+  };
+}
+
+/* Reconstrói o carrinho só com dados válidos (localStorage ou link compartilhado podem vir adulterados) */
+function sanitizeCart(list){
+  if(!Array.isArray(list)) return [];
+  const out = [];
+  list.forEach(raw => {
+    if(!raw || typeof raw !== 'object') return;
+    if(raw.type === 'photocard'){
+      const photo = PHOTOCARDS.find(p => p.id === raw.photoId);
+      const tier = photo?.tiers.find(t => t.qty === Number(raw.photoQty));
+      if(photo && tier) out.push(makePhotoItem(photo, tier, raw.protetor));
+    } else if(raw.type === 'botton'){
+      const n = Math.floor(Number(raw.qty));
+      if(COVERS.some(c => c.id === raw.plast) && MODELS.some(m => m.id === raw.modelo)
+         && (raw.papel === 'a4' || raw.papel === 'fotografico') && n >= 1 && n <= 999){
+        out.push(makeBottonItem(raw.plast, raw.modelo, raw.papel, n));
+      }
+    }
   });
+  return out;
+}
+
+function addToCart(){
+  const item = makeBottonItem(selPlast, selModelo, selPapel, qty);
+  const info = getItemInfo(item);
+  cart.push(item);
   qty = 1;
   document.getElementById('qty-disp').textContent = qty;
   updatePromoBlock();
@@ -702,8 +792,7 @@ function restoreCart(){
   try {
     const saved = localStorage.getItem('edyllana-cart');
     if(saved){
-      const restored = JSON.parse(saved);
-      cart = Array.isArray(restored) ? restored : [];
+      cart = sanitizeCart(JSON.parse(saved));
     }
   } catch(e){
     cart = [];
@@ -787,7 +876,7 @@ function updatePromoBlock(){
     const notice    = document.getElementById('promo-notice');
     if(!cfg.brindes_disponiveis){
       brindeBtn.classList.add('disabled'); notice.style.display='block';
-      notice.textContent='⚠️ Os brindes estão esgotados. Apenas desconto disponível.';
+      notice.textContent='Os brindes estão esgotados. Apenas desconto disponível.';
       if(selPromo==='brinde') selectPromo('desconto');
     } else {
       brindeBtn.classList.remove('disabled'); notice.style.display='none';
@@ -810,6 +899,7 @@ function selectPromo(opt){
 /* ═══════════ PRODUCT TYPE / PHOTOCARD ORDER ═══════════ */
 function selectProductType(type){
   selectedProductType = type;
+  if(selectedSelectionMode !== 'normal') return;
   const bottonPanel = document.getElementById('panel-botton');
   const photoPanel = document.getElementById('panel-photocard');
   const btnBotton = document.getElementById('type-botton');
@@ -847,7 +937,7 @@ function buildPhotocardOrderUI(){
     <div class="po-finish${isOpen ? ' open' : ''}" data-finish="${fin.id}">
       <button class="po-trigger${isSelected ? ' is-sel' : ''}" type="button" aria-expanded="${isOpen}">
         <span class="po-trigger-name">${fin.name}</span>
-        <span class="po-trigger-side"><span class="po-check">✓</span>Escolher <span class="po-chevron">▾</span></span>
+        <span class="po-trigger-side"><span class="po-check">${icon('check')}</span>Escolher <span class="po-chevron">${icon('chevron')}</span></span>
       </button>
       <div class="po-drawer"><div class="po-drawer-inner"><div class="po-drawer-pad">
         ${fin.variants.map(v=>{
@@ -1020,11 +1110,7 @@ function selectProtetor(tipo){
 }
 
 function updateProtetorUI(){
-  const options = {
-    none: { label:'Sem protetor', price:0 },
-    basico: { label:'Protetor transparente', price:5 },
-    figurinhas: { label:'Protetor + figurinhas', price:10 }
-  };
+  const options = PROTETORES;
   const selected = options[selectedProtetor] || options.none;
   const noneBtn = document.getElementById('protetor-none-btn');
   const basicoBtn = document.getElementById('protetor-basico-btn');
@@ -1049,26 +1135,7 @@ function addPhotocardToCart(){
   if(!item) return;
   const tier = item.tiers.find(t => t.qty === selectedPhotoQty);
   if(!tier) return;
-  const protetorPreco = { basico: 5, figurinhas: 10 }[selectedProtetor] || 0;
-  const protetorLabel = {
-    none: 'Sem protetor',
-    basico: 'Protetor transparente (+ R$ 5,00)',
-    figurinhas: 'Protetor + figurinhas (+ R$ 10,00)'
-  }[selectedProtetor];
-  cart.push({
-    id: `photo-${Date.now()}-${Math.random().toString(36).slice(2)}`,
-    type: 'photocard',
-    photoId: item.id,
-    photoQty: tier.qty,
-    label: `Photocard ${item.name} · ${tier.qty} un.`,
-    qty: tier.qty,
-    unit: tier.price / tier.qty,
-    photoSubtotal: tier.price,
-    protetor: selectedProtetor,
-    protetorLabel,
-    protetorPrice: protetorPreco,
-    subtotal: tier.price + protetorPreco
-  });
+  cart.push(makePhotoItem(item, tier, selectedProtetor));
   persistCart();
   updateSummary();
   updateCartNavCount();
@@ -1130,7 +1197,7 @@ function updateCouponUI(){
       const { raw, couponDiscount } = calcTotal();
       if(coupon.min && raw < coupon.min){
         info.classList.add('is-warn');
-        info.textContent = `⚠️ Cupom ${appliedCoupon} só funciona acima de R$ ${fmt(coupon.min)} — falta R$ ${fmt(Math.max(0, coupon.min - raw))} para ativar.`;
+        info.textContent = `Cupom ${appliedCoupon} só funciona acima de R$ ${fmt(coupon.min)} — falta R$ ${fmt(Math.max(0, coupon.min - raw))} para ativar.`;
       } else {
         info.classList.remove('is-warn');
         info.textContent = couponDiscount > 0
@@ -1155,9 +1222,9 @@ function checkCouponSuspension(){
   const raw = cart.reduce((sum, item) => sum + (Number(item.subtotal) || 0), 0);
   const suspended = !!(coupon.min && raw < coupon.min);
   if(suspended && !couponSuspended){
-    toast(`⚠️ Carrinho abaixo de R$ ${fmt(coupon.min)}: o cupom ${appliedCoupon} fica pausado até atingir o mínimo`);
+    toast(`Carrinho abaixo de R$ ${fmt(coupon.min)}: o cupom ${appliedCoupon} fica pausado até atingir o mínimo`);
   } else if(!suspended && couponSuspended){
-    toast(`🎉 Cupom ${appliedCoupon} reativado: ${coupon.label}`);
+    toast(`Cupom ${appliedCoupon} reativado: ${coupon.label}`);
   }
   couponSuspended = suspended;
 }
@@ -1187,9 +1254,11 @@ function restoreCartFromUrl(){
   try {
     const restored = JSON.parse(decodeURIComponent(escape(atob(params.get('cart')))));
     if(!Array.isArray(restored)) throw new Error('Formato de carrinho inválido');
-    cart = restored;
+    cart = sanitizeCart(restored);
     persistCart();
     updateCartNavCount();
+    history.replaceState(null, '', location.pathname);
+    toast('Carrinho compartilhado carregado');
   } catch(e){
     console.warn('Carrinho compartilhado inválido', e);
   }
@@ -1262,20 +1331,7 @@ function quickAddPhotocard(photoId, qty){
   if(!item) return;
   const tier = item.tiers.find(t => t.qty === qty);
   if(!tier) return;
-  cart.push({
-    id: `photo-${Date.now()}-${Math.random().toString(36).slice(2)}`,
-    type: 'photocard',
-    photoId: item.id,
-    photoQty: tier.qty,
-    label: `Photocard ${item.name} · ${tier.qty} un.`,
-    qty: tier.qty,
-    unit: tier.price / tier.qty,
-    photoSubtotal: tier.price,
-    protetor: 'none',
-    protetorLabel: 'Sem protetor',
-    protetorPrice: 0,
-    subtotal: tier.price
-  });
+  cart.push(makePhotoItem(item, tier, 'none'));
   persistCart();
   updateSummary();
   updatePromoBlock();
@@ -1314,10 +1370,10 @@ function calcTotal(){
     desc  = Math.min(desc, bottonTotal);
     total = Math.max(0, total-desc);
     promoLabel = cfg.desconto_tipo==='pct'
-      ? `💸 Desconto ${cfg.desconto_valor}% sobre bottons (−R$ ${fmt(desc)})`
-      : `💸 Desconto R$ ${fmt(cfg.desconto_valor)} sobre bottons`;
+      ? `Desconto ${cfg.desconto_valor}% sobre bottons (−R$ ${fmt(desc)})`
+      : `Desconto R$ ${fmt(cfg.desconto_valor)} sobre bottons`;
   } else if(promoVisible && selPromo==='brinde'){
-    promoLabel = `🎁 ${cfg.descricao_brinde} (sem alterar o total)`;
+    promoLabel = `Brinde: ${cfg.descricao_brinde} (sem alterar o total)`;
   }
 
   let couponDiscount = 0;
@@ -1402,37 +1458,36 @@ function updateSummary(){
 let _pendingWppUrl = '';
 let _pendingOrderArgs = null;
 
-async function sendWpp(){
+function sendWpp(){
   if(!cart.length) { toast('Adicione pelo menos um item ao carrinho'); return; }
   updatePromoBlock();
-  document.getElementById('modal-backdrop').classList.add('open');
+  document.getElementById('modal-backdrop')?.classList.add('open');
   setTimeout(() => document.getElementById('nome-in')?.focus(), 350);
 }
 
 function closeModal(e){
-  if(e.target === document.getElementById('modal-backdrop')) closeModalDirect();
+  if(e.target.id === 'modal-backdrop') closeModalDirect();
 }
 function closeModalDirect(){
-  document.getElementById('modal-backdrop').classList.remove('open');
+  document.getElementById('modal-backdrop')?.classList.remove('open');
 }
 
-async function confirmSendWpp(){
+function confirmSendWpp(){
   const nomeEl = document.getElementById('nome-in');
   const nome = (nomeEl?.value || '').trim();
   if(!nome){
-    toast('Coloca seu nome para continuar');
+    toast('Digite seu nome para continuar');
     nomeEl?.focus();
     nomeEl?.classList.add('inp-error');
     setTimeout(() => nomeEl?.classList.remove('inp-error'), 1600);
     return;
   }
   updatePromoBlock();
-  const {total,promoLabel,desc} = calcTotal();
+  const {total,promoLabel} = calcTotal();
   const itemsTxt = cart.map(describeCartItem).join('\n');
-  const promoTxt = promoVisible?`\nBeneficio: ${promoLabel}`:'';
-  const msg = `Ola! Quero fazer um pedido\n\nNome: ${nome}\n\nItens:\n${itemsTxt}\n\nQuantidade total: ${getTotalQty()}${promoTxt}\nTotal: R$ ${fmt(total)}\n\nVou enviar a foto como documento em seguida!`;
+  const promoTxt = promoVisible?`\nBenefício: ${promoLabel}`:'';
+  const msg = `Olá! Quero fazer um pedido\n\nNome: ${nome}\n\nItens:\n${itemsTxt}\n\nQuantidade total: ${getTotalQty()}${promoTxt}\nTotal: R$ ${fmt(total)}\n\nVou enviar a foto como documento em seguida!`;
   const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
-  await saveOrder({ nome, promoLabel, total, desc });
   window.open(url, '_blank');
   closeModalDirect();
   cart = [];
@@ -1444,20 +1499,15 @@ async function confirmSendWpp(){
   toast('WhatsApp aberto! Carrinho limpo. Lembre-se de anexar a foto como Documento.');
 }
 
-/* ═══════════ SAVE ORDER ═══════════ */
-async function saveOrder({nome, promoLabel, total, desc}){
-  // Persistência externa removida por solicitação. O pedido vai somente para o WhatsApp.
-  return true;
-}
-
 /* ═══════════ THEME ═══════════ */
 function toggleTheme(){
   const dark = document.documentElement.getAttribute('data-theme')==='dark';
   const next = dark ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem('edyllana-theme', next);
-  document.getElementById('t-ico').textContent = dark?'🌙':'☀️';
-  document.getElementById('t-lbl').textContent = dark?'Escuro':'Claro';
+  const ico = document.getElementById('t-ico'), lbl = document.getElementById('t-lbl');
+  if(ico) ico.innerHTML = dark ? ICON_MOON : ICON_SUN;
+  if(lbl) lbl.textContent = dark?'Escuro':'Claro';
 }
 
 document.addEventListener('keydown', (event) => {
@@ -1465,17 +1515,34 @@ document.addEventListener('keydown', (event) => {
 });
 
 /* ═══════════ TOAST ═══════════ */
+let _toastTimer = null;
 function toast(msg){
   const t = document.getElementById('toast');
   if(!t) return;
   t.textContent = msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2800);
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(()=>t.classList.remove('show'), 3200);
+}
+
+/* Destaca no menu a página atual */
+function markActiveNav(){
+  const page = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-right a.theme-btn').forEach(a => {
+    const href = a.getAttribute('href') || '';
+    const isCurrent = !href.includes('#') && href === page;
+    a.classList.toggle('is-current', isCurrent);
+    if(isCurrent) a.setAttribute('aria-current', 'page');
+  });
 }
 
 /* Auto-init per page: pedido.html carrega o montador sozinho */
 document.addEventListener('DOMContentLoaded', () => {
   updateCartNavCount();
   updateFavNavCount();
+  markActiveNav();
+  document.getElementById('coupon-input')?.addEventListener('keydown', e => {
+    if(e.key === 'Enter' && !appliedCoupon){ e.preventDefault(); applyCoupon(); }
+  });
   if(document.getElementById('order-body')){
     loadConfig();
   }

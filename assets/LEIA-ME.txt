@@ -1,2 +1,0 @@
-Coloque aqui as fotos dos produtos.
-Depois troque os links IMG_* no topo do script.js pelos caminhos locais, ex: assets/meu-botton.jpg
